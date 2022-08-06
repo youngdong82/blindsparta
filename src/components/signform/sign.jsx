@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useCallback } from 'react'
 
 
 function SignUp() {
@@ -47,7 +48,7 @@ const SignForm = () => {
                 <Logo className="signform__logo--logo" src="../../../public/img/logo_v2.svg" alt="sparta logo" />
                 <LogoTitle className="signform__logo--name">블라인드 스파르타</LogoTitle>
             </LogoSlot>
-            <SignField isJoined={false}/>
+            <SignField isJoined={true}/>
             <div>
                 <Btn type="button">취소</Btn>
                 <Btn>확인</Btn>
