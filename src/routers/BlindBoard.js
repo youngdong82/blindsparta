@@ -1,9 +1,12 @@
 import React from 'react';
 import Notion from '../components/Notion';
 import styled from 'styled-components'
+import Navbar from '../components/ui/Navbar'
 
 function BlindBoard() {
   return (
+    <>
+    <Navbar />
     <BlindBoardComp>
       <ProjectInfoComp>
         <article>
@@ -31,6 +34,7 @@ function BlindBoard() {
         </NotionInput>
       </NotionContainerComp>
     </BlindBoardComp>
+    </>
   );
 }
 const BlindBoardComp = styled.main`
