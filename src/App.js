@@ -1,11 +1,9 @@
-import React from React;
+import React from 'react';
+import MainPage from './pages/MainPage';
 
 function App() {
-  return (
-    <div className="App">
-      열심히 해보아요.
-    </div>
-  );
+  return <MainPage />;
+
 }
 
 export default App;
