@@ -90,5 +90,6 @@ const Wrapper = styled(Slider)`
     display: flex;
     justify-content: center;
     align-items: center;
+    text-decoration: none;
   }
 `;
