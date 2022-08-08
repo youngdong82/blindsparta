@@ -40,6 +40,26 @@ function BlindBoard() {
     setNowDataList(DUMMY[campName][week_id])
   }
 
+  //노션 작성 관련
+  const notion_title = useRef();
+  const notion_description = useRef();
+  const submitNotion = () => {
+    const notionTitleValue = notion_title.current.value;
+    const notionDescriptionValue = notion_description.current.value;
+
+    const newNowData = {
+      id: 'd15',
+      user_id: 'youngdong4', 
+      title: notionTitleValue, 
+      description: notionDescriptionValue, 
+      like: 0,
+    };
+    const newNowDataList = [newNowData, ...nowDataList];
+    setNowDataList(newNowDataList)
+
+    notion_title.current.value = '';
+    notion_description.current.value = '';
+  }
   return (
     <CampComp>
     <Navbar />
@@ -75,14 +95,19 @@ function BlindBoard() {
       </CampInfoComp>
       <NotionContainerComp>
         <NotionContainer>
-          <Notion />
-          <Notion />
-          <Notion />
+          {nowDataList !== null && nowDataList.length !== 0 ? 
+          nowDataList.map((eachNotion) => {
+            return(
+              <Notion key={eachNotion.id} data={eachNotion}/>
+            )
+          })
+          : <></>}
         </NotionContainer>
         <NotionInput>
           <label>더 하고 싶은 말이 있나요?</label>
-          <input type='text' />
-          <button>작성하기</button>
+          <input ref={notion_title} type='text' placeholder='글 제목을 적어주세요'/>
+          <input ref={notion_description} type='text' placeholder='글 내용을 적어주세요' />
+          <button onClick={submitNotion}>작성하기</button>
         </NotionInput>
       </NotionContainerComp>
     </BlindBoardComp>
