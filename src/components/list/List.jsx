@@ -2,7 +2,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 
-import "./style.css";
+import styles from "./style.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -40,17 +40,15 @@ const List = () => {
   };
 
   return (
-    <div className="list-container">
+    <div className={styles[`list-container`]}>
       <Slider {...settings}>
         {DummyData.map((item) => {
           const id = item.id;
 
           return (
-            <div className="asd">
+            <div className={styles.asd}>
               <Card key={id}>
-                {/* onClick = {()=> clickEvent(id)} */}
-
-                <Link className="link" to={`/${id}`}>
+                <Link className={styles.link} to={`/${id}`}>
                   <img src="assets/img/channel_talk_btn.png" alt="campimage" />
                   <p>{item.title}</p>
                 </Link>
