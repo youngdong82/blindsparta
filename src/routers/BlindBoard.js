@@ -1,18 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import Notion from '../components/Notion';
 import styled from 'styled-components'
 import Navbar from '../components/ui/Navbar'
+//data
+import DUMMY from '../dummyData/dummyNotion';
+import DUMMY_CAMP_INFO from '../dummyData/dummyCamp';
 
 function BlindBoard() {
+  // 기본 렌더링 데이터 가져오기
+  const {pathname} = useLocation();
+  const campName = pathname.split('/')[1]
+  const [nowCampData, setNowCampData] = useState(null);
+  const [nowDataList, setNowDataList] = useState(null);
+  // 기본적인 데이터 세팅
+  useEffect(() => {
+    setNowCampData(DUMMY_CAMP_INFO[campName])
+    setNowDataList(DUMMY[campName]['week_1'])
+  },[])
+
+  useEffect(() => {
+    if(nowDataList != null){
+      console.log(nowDataList)
+    }
+  },[nowDataList])
+  useEffect(() => {
+    if(nowCampData != null){
+      console.log(nowCampData)
+    }
+  },[nowCampData])
+
   return (
-    <>
+    <CampComp>
     <Navbar />
     <BlindBoardComp>
-      <ProjectInfoComp>
-        <article>
-          <img alt='이노베이션 이미지' />
-          <h5>이노베이션 인 동작</h5>
-          <div> 기간 : 2022.07 ~ 2022.10</div>
+      <CampInfoComp>
+        <article className='campInfo'>
+          {nowCampData !== null ? 
+          <>
+            <img src={nowCampData.img} alt='이노베이션 이미지' />
+            <h3>{nowCampData.name}</h3>
+            <div> 캠프 기간 : {nowCampData.date}</div>
+            <div> 훈련 시간 : {nowCampData.time}</div>
+            <div> 훈련 방식 : {nowCampData.way}</div>
+          </>
+          : <></>}
         </article>
         <article>
           <div>1주차</div>
@@ -20,7 +52,7 @@ function BlindBoard() {
           <div>3주차</div>
           <div>4주차</div>
         </article>
-      </ProjectInfoComp>
+      </CampInfoComp>
       <NotionContainerComp>
         <NotionContainer>
           <Notion />
@@ -34,9 +66,12 @@ function BlindBoard() {
         </NotionInput>
       </NotionContainerComp>
     </BlindBoardComp>
-    </>
+    </CampComp>
   );
 }
+const CampComp = styled.div`
+  display: flex;
+`
 const BlindBoardComp = styled.main`
   width: 80vw;
   height: 84vh;
