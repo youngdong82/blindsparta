@@ -30,6 +30,16 @@ function BlindBoard() {
     }
   },[nowCampData])
 
+  //주차 변경
+  const switchWeek = (e) => {
+    const week_id = e.target?.dataset?.id;
+    if(week_id === undefined){
+      alert('week에서 에러')
+      return
+    }
+    setNowDataList(DUMMY[campName][week_id])
+  }
+
   return (
     <CampComp>
     <Navbar />
@@ -46,11 +56,21 @@ function BlindBoard() {
           </>
           : <></>}
         </article>
-        <article>
-          <div>1주차</div>
-          <div>2주차</div>
-          <div>3주차</div>
-          <div>4주차</div>
+        <article className='weekContainer'onClick={switchWeek}>
+          <div data-id='week_1'>1주차</div>
+          <div data-id='week_2'>2주차</div>
+          <div data-id='week_3'>3주차</div>
+          <div data-id='week_4'>4주차</div>
+          <div data-id='week_5'>5주차</div>
+          <div data-id='week_6'>6주차</div>
+          <div data-id='week_7'>7주차</div>
+          <div data-id='week_8'>8주차</div>
+          <div data-id='week_9'>9주차</div>
+          <div data-id='week_10'>10주차</div>
+          <div data-id='week_11'>11주차</div>
+          <div data-id='week_12'>12주차</div>
+          <div data-id='week_13'>13주차</div>
+          <div data-id='week_14'>14주차</div>
         </article>
       </CampInfoComp>
       <NotionContainerComp>
@@ -77,13 +97,33 @@ const BlindBoardComp = styled.main`
   height: 84vh;
   display: flex;
   overflow: hidden;
-  border: 1px solid black;
 `
-const ProjectInfoComp = styled.section`
+const CampInfoComp = styled.section`
   width: 30%;
   height: 100%;
-  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  & .campInfo{
+    height: 50%;
+  }
+  & .campInfo > img{
+    width: 100%;
+    height: 50%;
+  }
+
+  & .weekContainer{
+    height: 50%;
+    overflow-y: scroll;
+  }
+  & .weekContainer > div{
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    cursor: pointer;
+  }
+
 `
+
 const NotionContainerComp = styled.section`
   width: 100%;
   height: 100%;
