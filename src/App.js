@@ -1,11 +1,23 @@
-import React from React;
+import React from 'react';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import Header from './components/Header';
+import BlindBoard from './routers/BlindBoard';
+import SignForm from './components/signform/sign';
+import MainPage from './pages/MainPage';
 
 function App() {
   return (
     <div className="App">
-      열심히 해보아요.
+      <Header />
+      <Router>
+        <Routes>
+          <Route path='/' element={<MainPage/>} />
+          <Route path='/login' element={<SignForm />} />
+          <Route path='/dongjak' element={<BlindBoard />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
-
+// sign
 export default App;
