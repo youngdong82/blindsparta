@@ -19,7 +19,10 @@ function Notion() {
         <li>그렇군요!</li>
         <li>피땀눈물 주륵주륵!</li>
       </ul>
-      <InputComment />
+      <div className="InputComment">
+          <textarea ref={comment_comment} placeholder='댓글을 작성해주세요'/>
+          <button onClick={submitComment}>등록</button>
+    </div>
     </NotionComp>
   );
 }
