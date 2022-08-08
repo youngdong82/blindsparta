@@ -36,10 +36,8 @@ const List = () =>{
     speed: 500,
     rows: 2,
     slidesPerRow: 3,
-    dots: true
-    
+    dots: true,
   };
-  
 
   return (
     <div className="list-container">
@@ -66,14 +64,6 @@ const List = () =>{
       </Slider>
     </div>
   );
-}
-
-
-
+};
 
 export default List;
-
-
-
-
-
