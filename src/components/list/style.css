@@ -1,8 +1,17 @@
 .list-container .slick-prev:before,
 .list-container .slick-next:before {
-    color: black
-};
+  color: black;
+}
 
+.list-container {
+  margin: auto;
 
-
-
+  min-width: 1000px;
+  width: 1000px;
+  height: 500px;
+}
+.slick-slider {
+  background: #9e9e9e61;
+  width: 900px;
+  margin: auto;
+}

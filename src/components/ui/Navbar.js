@@ -33,7 +33,7 @@ const Navbar = () => {
         return (
           <Card key={id} type={"nav"}>
             <Link className="link" to={`/${id}`}>
-              <img src="assets/img/channel_talk_btn.png" />
+              <img src="assets/img/hanghaeDonjak.png" />
               <p>{item.name}</p>
             </Link>
           </Card>

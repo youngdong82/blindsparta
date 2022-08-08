@@ -1,17 +1,16 @@
-.layout{
+.layout {
   max-width: 1200px;
-  min-width: 800px;
-  margin: 0 auto;
+  min-width: 1000px;
+  margin: auto;
 }
 
-.title{
+.title {
   /* background-color: antiquewhite; */
   width: 800px;
-  text-align : center;
+  text-align: center;
   margin: auto;
-  
 }
 
-.bar{
+.bar {
   width: 800px;
 }
