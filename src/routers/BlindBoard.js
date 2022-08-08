@@ -148,23 +148,22 @@ const CampInfoComp = styled.section`
   }
 
 `
-
 const NotionContainerComp = styled.section`
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-`
+`;
 const NotionContainer = styled.div`
   width: 100%;
   height: 85%;
   overflow-y: scroll;
-`
+`;
 const NotionInput = styled.article`
   width: 100%;
   height: 15%;
   display: flex;
   flex-direction: column;
-`
+`;
 
 export default BlindBoard;

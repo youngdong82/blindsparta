@@ -1,9 +1,23 @@
 import styled, { css } from "styled-components";
 
+const Card = (props) => {
+  const { type } = props;
+
+  return <Box type={type}>{props.children}</Box>;
+};
+Card.defaultProps = {
+  type: "nav",
+};
+export default Card;
+
+//styled-component
 const Box = styled.button`
   background-color: white;
   border-color: red;
   font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   ${(props) =>
     props.type === "nav" &&
     css`
@@ -15,15 +29,3 @@ const Box = styled.button`
     cursor: pointer;
   }
 `;
-const Card = (props) => {
-  const { type, onclick } = props;
-  return (
-    <Box type={type} onClick={onclick}>
-      <p>{props.children}</p>
-    </Box>
-  );
-};
-Card.defaultProps = {
-  type: "nav",
-};
-export default Card;
