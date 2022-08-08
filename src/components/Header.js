@@ -4,7 +4,7 @@ import styled from 'styled-components';
 function Header() {
   return (
     <HeaderComp>
-      헤더입니다. 로고가 들어갈꺼에요.
+      헤더입니다.
     </HeaderComp>
   );
 }

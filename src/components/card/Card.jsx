@@ -1,11 +1,15 @@
 import React from "react";
 import "./style.css";
 
-const Card = () =>{
-  return <div className="card">
-    사진
-    이름
-  </div>
+const Card = (props) => {
+  const { onclick } = props;
+
+  return (
+    <div className="card"  onClick={onclick}>
+      <p>{props.children}</p>
+    </div> 
+  );
 };
+
 
 export default Card;
