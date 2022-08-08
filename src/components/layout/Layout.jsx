@@ -1,3 +1,4 @@
+// 메인페이지의 바탕화면
 import React from "react";
 import "./style.css";
 import List from "../list/List";
