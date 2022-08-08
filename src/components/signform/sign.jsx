@@ -1,54 +1,53 @@
 import React from "react";
 import styled from "styled-components";
-import { useCallback } from 'react'
 
+// import { useDispatch } from 'react-redux';
 
-function SignUp() {
-    return (
-        <FieldSet className="signform__input">
-            {/* <label htmlFor="id">아이디</label> */}
-            <InputBox className="signform__input--text" type="text" id="id" name="id" placeholder="아이디" required></InputBox>
-            {/* <label htmlFor="pw">비밀번호</label> */}
-            <InputBox className="signform__input--text" type="passward" id="pw" name="pw" placeholder="비밀번호" required></InputBox>
-            {/* <label htmlFor="pw-confirm">비밀번호 확인</label> */}
-            <InputBox className="signform__input--text" type="passward" id="pw-confirm" name="pw-confirm" placeholder="비밀번호 확인" required></InputBox>
-            <SelectBox name="camp" id="camp">
-                <option value="">캠프를 선택하세요</option>
-                <option value="서울">서울</option>
-                <option value="동작">동작</option>
-                <option value="강원">강원</option>
-            </SelectBox>
-        </FieldSet>
-    );
-}
-
-function SignIn() {
-    return (
-        <FieldSet className="signform__input">
-            {/* <label htmlFor="id">아이디</label> */}
-            <InputBox className="signform__input--text" type="text" id="id" name="id" placeholder="아이디" required></InputBox>
-            {/* <label htmlFor="pw">비밀번호</label> */}
-            <InputBox className="signform__input--text" type="passward" id="pw" name="pw" placeholder="비밀번호" required></InputBox>
-        </FieldSet>
-    );
-}
-
-function SignField(props) {
-    const isJoined = props.isJoined;
-    if(isJoined){
-        return <SignIn />
-    }
-    return <SignUp />
-}
 
 const SignForm = () => {
+    // const dispatch = useDispatch();
+    const [login, setLogin] = React.useState({ id:"", password:"" });
+    const inputConfirm = React.useRef();
+
+    function onChangeHandler(event) {
+        const {name, value} = event.target;
+        setLogin({...login, [name]:value})
+    }
+
+    function onSubmitHandler(event) {
+        event.preventDefault();
+
+    }
+
     return (
-        <SubmitForm className="signform">
+        <SubmitForm className="signform" onSubmit={onSubmitHandler}>
             <LogoSlot className="signform__logo">
                 <Logo className="signform__logo--logo" src="../../../public/img/logo_v2.svg" alt="sparta logo" />
                 <LogoTitle className="signform__logo--name">블라인드 스파르타</LogoTitle>
             </LogoSlot>
-            <SignField isJoined={true}/>
+            {/* <SignField isJoined={true}/> */}
+            { false 
+                ? (<FieldSet className="signform__input">
+                        {/* <label htmlFor="id">아이디</label> */}
+                        <InputBox className="signform__input--text" type="text" id="id" name="id" placeholder="아이디" value={login.id} onChange={onChangeHandler} required></InputBox>
+                        {/* <label htmlFor="pw">비밀번호</label> */}
+                        <InputBox className="signform__input--text" type="passward" id="pw" name="pw" placeholder="비밀번호" value={login.password} onChange={onChangeHandler} required></InputBox>
+                        {/* <label htmlFor="pw-confirm">비밀번호 확인</label> */}
+                        <InputBox className="signform__input--text" type="passward" id="pw-confirm" name="pw-confirm" placeholder="비밀번호 확인" ref={inputConfirm} required></InputBox>
+                        <SelectBox name="camp" id="camp">
+                            <option value="">캠프를 선택하세요</option>
+                            <option value="서울">서울</option>
+                            <option value="동작">동작</option>
+                            <option value="강원">강원</option>
+                        </SelectBox>
+                </FieldSet>) 
+                : (<FieldSet className="signform__input" onSubmit={onSubmitHandler}>
+                    {/* <label htmlFor="id">아이디</label> */}
+                    <InputBox className="signform__input--text" type="text" id="id" name="id" placeholder="아이디" value={login.id} onChange={onChangeHandler} required></InputBox>
+                    {/* <label htmlFor="pw">비밀번호</label> */}
+                    <InputBox className="signform__input--text" type="passward" id="pw" name="pw" placeholder="비밀번호" value={login.password} onChange={onChangeHandler} required></InputBox>
+                </FieldSet>
+                )}
             <div>
                 <Btn type="button">취소</Btn>
                 <Btn>확인</Btn>

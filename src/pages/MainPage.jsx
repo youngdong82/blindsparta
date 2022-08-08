@@ -6,11 +6,11 @@ import List from "../components/list/List"
 const MainPage = () => {
 
   return(
-   <>
-   <Layout>
-      <List/>;
-   </Layout>
-   </>
+    <>
+      <Layout>
+        <List/>;
+      </Layout>
+    </>
   );
 };
 

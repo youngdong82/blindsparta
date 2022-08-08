@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import Card from "../card/Card";
 
-const List = () =>{
+const List = () => {
   const settings = {
     className: "center",
     centerMode: false,
@@ -15,10 +15,8 @@ const List = () =>{
     speed: 500,
     rows: 2,
     slidesPerRow: 3,
-    dots: true
-    
+    dots: true,
   };
-  
 
   return (
     <div className="list-container">
@@ -27,61 +25,53 @@ const List = () =>{
           <Card></Card>
         </div>
         <div>
-        <Card></Card>
+          <Card></Card>
         </div>
         <div>
-        <Card></Card>
+          <Card></Card>
         </div>
         <div>
-        <Card></Card>
+          <Card></Card>
         </div>
         <div>
-        <Card></Card>
+          <Card></Card>
         </div>
         <div>
-        <Card></Card>
+          <Card></Card>
         </div>
         <div>
-        <Card></Card>
+          <Card></Card>
         </div>
         <div>
-        <Card></Card>
+          <Card></Card>
         </div>
         <div>
-        <Card></Card>
+          <Card></Card>
         </div>
         <div>
-        <Card></Card>
+          <Card></Card>
         </div>
         <div>
-        <Card></Card>
+          <Card></Card>
         </div>
         <div>
-        <Card></Card>
+          <Card></Card>
         </div>
         <div>
-        <Card></Card>
+          <Card></Card>
         </div>
         <div>
-        <Card></Card>
+          <Card></Card>
         </div>
         <div>
-        <Card></Card>
+          <Card></Card>
         </div>
         <div>
-        <Card></Card>
+          <Card></Card>
         </div>
       </Slider>
     </div>
   );
-}
-
-
-
+};
 
 export default List;
-
-
-
-
-
