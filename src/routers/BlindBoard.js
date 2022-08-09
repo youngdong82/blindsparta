@@ -6,17 +6,38 @@ import Navbar from '../components/ui/Navbar'
 //redux
 import {useSelector, useDispatch} from 'react-redux';
 import {createNotionList} from '../y_redux/modules/notionReducer';
+import {loadCampFB} from '../y_redux/modules/campReducer';
+import {loadNotionFB, createNotionFB} from '../y_redux/modules/notionReducer';
+//temp
+import campImg from '../asset/camp_img.png';
 
 function BlindBoard() {
   // 기본 렌더링 데이터 가져오기
   const {pathname} = useLocation();
   const campName = pathname.split('/')[1]
   const [nowWeek, setNowWeek] = useState('week_1');
-  // 기본적인 데이터 세팅
-  // redux 연결
+  // 기본적인 데이터 세팅, firebase
+  useEffect(() => {
+    dispatch(loadCampFB(campName));
+    dispatch(loadNotionFB(campName));
+  },[])
+  // redux
   const dispatch = useDispatch();
-  const notionList = useSelector((state) => state.notionReducer[campName][nowWeek]);
-  const campData = useSelector((state) => state.campReducer[campName]);
+  const whole_notionList = useSelector((state) => state.notionReducer.notionList);
+  const campData = useSelector((state) => state.campReducer.campData);
+  const [notionList, setNotionList] = useState([]);
+  useEffect(() => {
+      const filtered_notionList = whole_notionList.filter((each) => {
+        return each.week === nowWeek
+      })
+      setNotionList(filtered_notionList)
+  },[])
+  useEffect(() => {
+      const filtered_notionList = whole_notionList.filter((each) => {
+        return each.week === nowWeek
+      })
+      setNotionList(filtered_notionList)
+  },[nowWeek])
 
   //주차 변경
   const switchWeek = (e) => {
@@ -36,14 +57,15 @@ function BlindBoard() {
     const notionDescriptionValue = notion_description.current.value;
 
     const newNowData = {
-      id: Date.now(),
+      camp_name: campName,
+      week: nowWeek,
       user_id: 'youngdong4', 
       title: notionTitleValue, 
       description: notionDescriptionValue, 
       like: 0,
     };
         //이거 데이터 셋 복잡해서 생각한대로 동작 안함.
-    dispatch(createNotionList(campName, nowWeek, newNowData))
+    dispatch(createNotionFB(newNowData))
 
     notion_title.current.value = '';
     notion_description.current.value = '';
@@ -56,7 +78,7 @@ function BlindBoard() {
         <article className='campInfo'>
           {campData !== null ? 
           <>
-            <img src={campData.img} alt='이노베이션 이미지' />
+            <img src={campImg} alt='이노베이션 이미지' />
             <h3>{campData.name}</h3>
             <div> 캠프 기간 : {campData.date}</div>
             <div> 훈련 시간 : {campData.time}</div>

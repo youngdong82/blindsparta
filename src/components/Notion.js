@@ -1,13 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import {useSelector, useDispatch} from 'react-redux';
-import {createCommentList} from '../y_redux/modules/commentReducer';
+import {loadCommentFB, createCommentFB} from '../y_redux/modules/commentReducer';
 
 function Notion({data}) {
   // redux 연결
   const dispatch = useDispatch();
   const comments_redux = useSelector((state) => state.commentReducer.commentList);
   const [comments, setComments] = useState([]);
+  useEffect(() => {
+    dispatch(loadCommentFB());
+  },[])
+
   useEffect(() => {
     if(comments_redux.length !== 0){
       const thisComments = comments_redux.filter((eachComment) => {
@@ -27,12 +31,11 @@ function Notion({data}) {
     const commentValue = comment_comment.current.value;
 
     const newComment = {
-      id: Date.now(),
       user_id: data.user_id,
       notion_id: data.id,
       comment: commentValue,
     };
-    dispatch(createCommentList(newComment));
+    dispatch(createCommentFB(newComment));
     comment_comment.current.value = '';
   }
 
