@@ -1,19 +1,13 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Card from "./Card";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
-const DUMMY = [
-  { id: "dongjak", name: "항해1기" },
-  { id: "dongjak", name: "대전2기" },
-  { id: "dongjak", name: "동작3기" },
-  { id: "dongjak", name: "강원4기" },
-  { id: "dongjak", name: "부산5기" },
-  { id: "dongjak", name: "대구6기" },
-  { id: "dongjak", name: "대구9기" },
-];
+
 const Navbar = () => {
+  const camp = useSelector((state) => state.reducer.camp);
   const settings = {
     dots: false,
     infinite: true,
@@ -27,13 +21,12 @@ const Navbar = () => {
 
   return (
     <Wrapper {...settings}>
-      {DUMMY.map((item) => {
+      {camp.map((item) => {
         const id = item.id;
-
         return (
           <Card key={id} type={"nav"}>
             <Link className="link" to={`/${id}`}>
-              <img src="assets/img/channel_talk_btn.png" />
+              <img src="assets/img/channel_talk_btn.png" alt='cheannel_img' />
               <p>{item.name}</p>
             </Link>
           </Card>
@@ -70,7 +63,7 @@ const Wrapper = styled(Slider)`
     left: 30px;
 
     &::before {
-      opaicty: 0; // 기존에 숨어있던 화살표 버튼이 보이게
+      opacity: 0; // 기존에 숨어있던 화살표 버튼이 보이게
       color: red; // 버튼 색은 검은색으로
     }
   }
