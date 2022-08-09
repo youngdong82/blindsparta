@@ -5,7 +5,7 @@ const Card = (props) => {
   const { onclick } = props;
 
   return (
-    <div className="card"  onClick={onclick}>
+    <div className="card" onClick={onclick}>
       <p>{props.children}</p>
     </div> 
   );

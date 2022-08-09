@@ -15,3 +15,9 @@
 .bar{
   width: 800px;
 }
+
+.plusbutton{
+  position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
