@@ -31,4 +31,15 @@ const DUMMY_CAMP_INFO = {
   }
 }
 
+export const DummyData = [
+    {id: "hanghae1", title: "항해1기"},
+    {id: "dongjak", title: "동작이노베이션캠프"},
+    {id: "hanghae2", title: "항해2기"},
+    {id: "hanghae3", title: "항해3기"},
+    {id: "hanghae4", title: "항해4기"},
+    {id: "hanghae5", title: "항해5기"},
+    {id: "hanghae6", title: "항해6기"},
+    {id: "hanghae7", title: "항해7기"}
+  ];
+
 export default DUMMY_CAMP_INFO;
