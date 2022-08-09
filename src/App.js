@@ -2,10 +2,11 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import BlindBoard from "./routers/BlindBoard";
-import SignForm from "./components/signform/sign";
+import SignForm from './routers/signform'
 import MainPage from "./pages/MainPage";
 import { Provider } from "react-redux";
 import store from "./slickRedux/store";
+
 
 function App() {
   return (
