@@ -1,11 +1,16 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Card from "./Card";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
+
 import DUMMY_CAMP_CARD from "../../dummyData/dummyCampCard";
+import { useCallback, useEffect, useState } from "react";
+
 const Navbar = () => {
+  const camp = useSelector((state) => state.reducer.camp);
   const settings = {
     dots: false,
     infinite: true,
@@ -19,7 +24,7 @@ const Navbar = () => {
 
   return (
     <Wrapper {...settings}>
-      {DUMMY_CAMP_CARD.map((item) => {
+      {camp.map((item) => {
         const id = item.id;
 
         return (
