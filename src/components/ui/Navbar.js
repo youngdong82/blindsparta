@@ -70,7 +70,7 @@ const Wrapper = styled(Slider)`
     left: 30px;
 
     &::before {
-      opaicty: 0; // 기존에 숨어있던 화살표 버튼이 보이게
+      opacity: 0; // 기존에 숨어있던 화살표 버튼이 보이게
       color: red; // 버튼 색은 검은색으로
     }
   }
