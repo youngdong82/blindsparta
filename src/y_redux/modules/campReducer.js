@@ -1,4 +1,4 @@
-import { db } from '../../firebase/firebase';
+import { db } from '../../firebase/y_firebase';
 import {collection, addDoc, getDocs, getDoc} from 'firebase/firestore';
 
 const LOAD = 'campList/LOAD';

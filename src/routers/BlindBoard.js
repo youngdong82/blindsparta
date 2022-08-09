@@ -67,9 +67,9 @@ function BlindBoard() {
         //이거 데이터 셋 복잡해서 생각한대로 동작 안함.
     dispatch(createNotionFB(newNowData))
 
-    notion_title.current.value = '';
-    notion_description.current.value = '';
-  }
+    notion_title.current.value = "";
+    notion_description.current.value = "";
+  };
   return (
     <CampComp>
     <Navbar />
@@ -126,38 +126,37 @@ function BlindBoard() {
 }
 const CampComp = styled.div`
   display: flex;
-`
+`;
 const BlindBoardComp = styled.main`
   width: 80vw;
   height: 84vh;
   display: flex;
   overflow: hidden;
-`
+`;
 const CampInfoComp = styled.section`
   width: 30%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  & .campInfo{
+  & .campInfo {
     height: 50%;
   }
-  & .campInfo > img{
+  & .campInfo > img {
     width: 100%;
     height: 50%;
   }
 
-  & .weekContainer{
+  & .weekContainer {
     height: 50%;
     overflow-y: scroll;
   }
-  & .weekContainer > div{
+  & .weekContainer > div {
     width: 100%;
     height: 40px;
     text-align: center;
     cursor: pointer;
   }
-
-`
+`;
 const NotionContainerComp = styled.section`
   width: 100%;
   height: 100%;

@@ -5,6 +5,9 @@ import {Provider} from 'react-redux';
 import store from './y_redux/configure';
 import './univ.css';
 
+import { Provider } from 'react-redux';
+import store from './app/store';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

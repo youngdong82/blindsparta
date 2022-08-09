@@ -1,0 +1,30 @@
+.list-container .slick-prev:before,
+.list-container .slick-next:before {
+  color: black;
+}
+
+.list-container {
+  margin: auto;
+
+  min-width: 1000px;
+  width: 1000px;
+  height: 500px;
+}
+.slick-slider {
+  background: #9e9e9e61;
+  width: 900px;
+  margin: auto;
+}
+.slick-arrow {
+  background: #9e9e9e61;
+
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 30px;
+  text-align: center;
+}
+
+button:hover {
+  cursor: pointer;
+}

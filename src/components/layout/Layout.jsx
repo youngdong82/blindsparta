@@ -1,16 +1,25 @@
 // 메인페이지의 바탕화면
 import React from "react";
-import "./style.css";
+import styles from "./style.module.css";
 import List from "../list/List";
-
-
-
-const Layout = () =>{
-  return <div className="layout">
-    <h2 className="title">캠프 목록</h2>
-    <hr className="bar"></hr>
-    <List></List>
-  </div>;
+import Modal from "../ui/Modal";
+import { useState } from "react";
+const Layout = () => {
+  const [istoggle, setIsToggle] = useState(false);
+  const addCamp = () => {
+    setIsToggle(true);
+  };
+  return (
+    <div className={styles.layout}>
+      <h2 className={styles.title}>캠프 목록</h2>
+      <hr className={styles.bar}></hr>
+      <List></List>
+      <button className={styles.addbtn} onClick={addCamp}>
+        캠프추가하기
+      </button>
+      {istoggle && <Modal toggle={setIsToggle} />}
+    </div>
+  );
 };
 
 export default Layout;
