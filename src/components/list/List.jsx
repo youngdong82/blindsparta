@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import Card from "../card/Card";
-import { useNavigate } from "react-router-dom"
+// import { useNavigate } from "react-router-dom"
 // import campimage from "../../../public/assets/img/channel_talk_btn.png"
 import {DummyData} from "../../dummyData/dummyCamp";
 
@@ -26,7 +26,7 @@ import {DummyData} from "../../dummyData/dummyCamp";
 
 const List = () =>{
   
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // const clickEvent = (id) => {
   //   navigate(`/${id}`)
   // }
