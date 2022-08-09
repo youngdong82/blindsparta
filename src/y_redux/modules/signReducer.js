@@ -7,7 +7,7 @@ import {
     query,
     deleteDoc,
 } from 'firebase/firestore';
-import { auth, db } from "../../firebase/firebase"
+import { auth, db } from "../../firebase/d_firebase"
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 // actions

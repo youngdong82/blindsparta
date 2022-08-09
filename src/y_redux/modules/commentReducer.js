@@ -1,5 +1,5 @@
 import { collection, addDoc, getDocs, deleteDoc, doc } from "firebase/firestore";
-import { db } from '../../firebase/y_firebase';
+import { db } from '../../firebase/firebase';
 
 const LOAD = 'commentList/LOAD';
 const CREATE = 'commentList/CREATE';

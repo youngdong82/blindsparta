@@ -6,9 +6,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
 
-import DUMMY_CAMP_CARD from "../../dummyData/dummyCampCard";
-import { useCallback, useEffect, useState } from "react";
-
 const Navbar = () => {
   const camp = useSelector((state) => state.reducer.camp);
   const settings = {
@@ -26,11 +23,10 @@ const Navbar = () => {
     <Wrapper {...settings}>
       {camp.map((item) => {
         const id = item.id;
-
         return (
           <Card key={id} type={"nav"}>
             <Link className="link" to={`/${id}`}>
-              <img src="assets/img/channel_talk_btn.png" />
+              <img src="assets/img/channel_talk_btn.png" alt='cheannel_img' />
               <p>{item.name}</p>
             </Link>
           </Card>

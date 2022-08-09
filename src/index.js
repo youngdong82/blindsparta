@@ -3,10 +3,9 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import {Provider} from 'react-redux';
 import store from './y_redux/configure';
-import './univ.css';
+import './css/univ.css';
 
-import { Provider } from 'react-redux';
-import store from './app/store';
+// import store from './app/store';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

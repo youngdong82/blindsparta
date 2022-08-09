@@ -2,40 +2,40 @@ import React from "react";
 import styled from "styled-components";
 
 import { useDispatch } from 'react-redux';
-import { signInFB } from '../../features/sign/signSlice';
+import { signInFB } from '../../y_redux/modules/signReducer';
 import { useNavigate } from 'react-router-dom';
+import logoImg from '../../asset/dongjak.png';
 
-export default function SignIn() {
+export default function SignIn({toggleIsLogin}) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    //로그인 관련
     const idInputRef = React.useRef();
     const pwInputRef = React.useRef();
 
     function onSubmitHandler(event) {
         event.preventDefault();
-
         const enteredId = idInputRef.current.value;
         const enteredPw = pwInputRef.current.value;
-
         dispatch(signInFB(enteredId, enteredPw));
-        // navigate(-1);
+        navigate('/');
     }
 
     return(
-        <SubmitForm className="signform" onSubmit={onSubmitHandler}>
-            <LogoSlot className="signform__logo">
-                <Logo className="signform__logo--logo" src="../../../public/img/logo_v2.svg" alt="sparta logo" />
-                <LogoTitle className="signform__logo--name">블라인드 스파르타</LogoTitle>
+        <SubmitForm onSubmit={onSubmitHandler}>
+            <LogoSlot >
+                <img src={logoImg} alt="logoImg" />
+                <p>블라인드 스파르타</p>
             </LogoSlot>
-            <FieldSet className="signform__input" onSubmit={onSubmitHandler}>
-                {/* <label htmlFor="id">아이디</label> */}
-                <InputBox className="signform__input--text" type="email" id="id" name="id" placeholder="아이디" ref={idInputRef} required></InputBox>
-                {/* <label htmlFor="pw">비밀번호</label> */}
-                <InputBox className="signform__input--text" type="password" id="pw" name="pw" placeholder="비밀번호" ref={pwInputRef} required></InputBox>
+            <FieldSet>
+                <label htmlFor="id">아이디</label>
+                <input type="email" id="id" name="id" placeholder="아이디" ref={idInputRef} required />
+                <label htmlFor="pw">비밀번호</label>
+                <input type="password" id="pw" name="pw" placeholder="비밀번호" ref={pwInputRef} required />
                 <div>
-                    <Btn type="button">취소</Btn>
-                    <Btn>확인</Btn>
+                    <button onClick={toggleIsLogin} type='button'>회원가입 하기</button>
+                    <button>확인</button>
                 </div>
             </FieldSet>
         </SubmitForm>
@@ -65,17 +65,14 @@ const LogoSlot = styled.div`
     align-items: center;
     margin-bottom: 2rem;
     padding: 0.5rem 1rem 0.5rem 1rem;
+    & img{
+        height: 50px;
+    }
+    & p{
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
 `
-
-const Logo = styled.img`
-    height: 50px;
-`
-
-const LogoTitle = styled.p`
-    font-size: 1.5rem;
-    font-weight: 700;
-`
-
 
 const FieldSet = styled.fieldset`
     display: flex;
@@ -84,22 +81,14 @@ const FieldSet = styled.fieldset`
     flex-direction: column;
     width: 45%;
     padding: 0.5rem 1rem 0.5rem 1rem;
-`
-
-const InputBox = styled.input`
-    width: 90%;
-    margin: 0.5rem 0;
-`
-
-const SelectBox = styled.select`
-    width: 90%;
-    margin: 0.5rem 0;
-`
-
-
-const Btn = styled.button`
-    width: 100px;
-    margin: 0.5rem;
-    background-color: skyblue;
-    border-radius: 2px;
+    & input{
+        width: 90%;
+        margin: 0.5rem 0;
+    }
+    & div > button{
+        width: 100px;
+        margin: 0.5rem;
+        background-color: skyblue;
+        border-radius: 2px;
+    }
 `

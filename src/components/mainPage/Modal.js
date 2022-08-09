@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { createCamp } from "../../slickRedux/redux";
+import { createCamp } from "../../y_redux/modules/redux";
 const Modal = ({ toggle }) => {
   const dispatch = useDispatch();
 

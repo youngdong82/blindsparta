@@ -1,5 +1,5 @@
 import { collection, addDoc, getDocs, deleteDoc, doc } from "firebase/firestore";
-import { db } from '../../firebase/y_firebase';
+import { db } from '../../firebase/firebase';
 // 액션
 const LOAD = 'notionList/LOAD';
 const CREATE = 'notionList/CREATE';

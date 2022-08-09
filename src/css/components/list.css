@@ -10,6 +10,31 @@
   width: 1000px;
   height: 500px;
 }
+.main_nav {
+  height: 200px;
+  margin: 20px;
+  width: 260px;
+  border: 4px solid black;
+  border-radius: 12px;
+  padding: 30px 24px 24px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+img {
+  width: 100px;
+  margin: auto;
+}
+p {
+  font-weight: 800;
+  font-size: 20px;
+  margin: auto;
+  text-align: center;
+}
+
+
 .slick-slider {
   background: #9e9e9e61;
   width: 900px;

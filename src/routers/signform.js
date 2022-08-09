@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-
 import SignUp from "../components/signform/SignUp";
 import SignIn from "../components/signform/SignIn";
+//firebase
+import { auth } from "../firebase/d_firebase"
+import { onAuthStateChanged } from 'firebase/auth'
 
-import { auth, db } from "../firebase/firebase"
-import { onAuthStateChanged } from 'firebase/auth';
 
 const SignForm = () => {
     const [isLogin, setIsLogin] = useState(false);
 
-    const loginCheck = async (user) => {
+    const loginCheck = async(user) => {
         if (user) {
             setIsLogin(true);
         } else {
@@ -18,14 +18,18 @@ const SignForm = () => {
     };
 
     React.useEffect(() => {
-        onAuthStateChanged(auth, loginCheck);
+        // onAuthStateChanged(auth, loginCheck);
     }, []);
+    const toggleIsLogin = () => {
+        console.log('clickeddd')
+        setIsLogin(!isLogin)
+    }
 
     return (
     <>
-        { false
-        ? <SignUp />
-        : <SignIn />}
+        { isLogin ? 
+        <SignUp toggleIsLogin={toggleIsLogin} /> 
+        : <SignIn toggleIsLogin={toggleIsLogin} />}
     </>
     );
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import {useSelector, useDispatch} from 'react-redux';
-import {loadCommentFB, createCommentFB} from '../y_redux/modules/commentReducer';
+import {loadCommentFB, createCommentFB} from '../../y_redux/modules/commentReducer';
 
 function Notion({data}) {
   // redux 연결

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import Notion from '../components/Notion';
+import Notion from '../components/blindBoard/Notion';
 import styled from 'styled-components'
-import Navbar from '../components/ui/Navbar'
+import Navbar from '../components/blindBoard/Navbar'
 //redux
 import {useSelector, useDispatch} from 'react-redux';
 import {createNotionList} from '../y_redux/modules/notionReducer';
