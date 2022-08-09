@@ -1,31 +1,19 @@
 // import React from "react";
-import * as React from "react";
-import { Link } from "react-router-dom";
 
-import "./style.css";
+import { Link } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import styles from "./style.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import Card from "../card/Card";
-import { useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux";
+import DUMMY_CAMP_CARD from "../../dummyData/dummyCampCard";
+
 // import campimage from "../../../public/assets/img/channel_talk_btn.png"
 
-const DummyData = [
-  {id: "dongjak", title: "항해1기"},
-  {id: "dongjak", title: "동작이노베이션캠프"},
-  {id: "dongjak", title: "항해2기"},
-  {id: "dongjak", title: "항해3기"},
-  {id: "dongjak", title: "항해4기"},
-  {id: "dongjak", title: "항해5기"},
-  {id: "dongjak", title: "항해6기"},
-  {id: "dongjak", title: "항해7기"}
-];
-
-const List = () =>{
-  const navigate = useNavigate();
-  const clickEvent = (id) => {
-    navigate(`/${id}`)
-  }
+const List = () => {
+  const camp = useSelector((state) => state.reducer.camp);
 
   const settings = {
     className: "center",
@@ -40,27 +28,22 @@ const List = () =>{
   };
 
   return (
-    <div className="list-container">
+    <div className={styles[`list-container`]}>
       <Slider {...settings}>
-        {DummyData.map((item) => {
-            const id = item.id;
-          
-            
-          return(
-          <div>
-          <Card key = {id}>
-          {/* onClick = {()=> clickEvent(id)} */}
-           
-              <Link className="link" to={`/${id}`}>
-              <img src="assets/img/channel_talk_btn.png" alt="campimage"/>
-              <p>{item.title}</p>
-              </Link>
-            
-          </Card>
-          </div>)  
-          
+        {camp.map((item) => {
+          const id = item.id;
+
+          return (
+            <div className={styles.asd}>
+              <Card key={id}>
+                <Link className={styles.link} to={`/${id}`}>
+                  <img src="assets/img/channel_talk_btn.png" alt="campimage" />
+                  <p>{item.name}</p>
+                </Link>
+              </Card>
+            </div>
+          );
         })}
-        
       </Slider>
     </div>
   );

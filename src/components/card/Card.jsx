@@ -1,15 +1,12 @@
 import React from "react";
-import "./style.css";
+import styles from "./style.module.css";
 
 const Card = (props) => {
-  const { onclick } = props;
-
   return (
-    <div className="card"  onClick={onclick}>
+    <div className={styles.card}>
       <p>{props.children}</p>
-    </div> 
+    </div>
   );
 };
-
 
 export default Card;

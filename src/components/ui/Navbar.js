@@ -1,19 +1,16 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Card from "./Card";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
-const DUMMY = [
-  { id: "dongjak", name: "항해1기" },
-  { id: "dongjak", name: "대전2기" },
-  { id: "dongjak", name: "동작3기" },
-  { id: "dongjak", name: "강원4기" },
-  { id: "dongjak", name: "부산5기" },
-  { id: "dongjak", name: "대구6기" },
-  { id: "dongjak", name: "대구9기" },
-];
+
+import DUMMY_CAMP_CARD from "../../dummyData/dummyCampCard";
+import { useCallback, useEffect, useState } from "react";
+
 const Navbar = () => {
+  const camp = useSelector((state) => state.reducer.camp);
   const settings = {
     dots: false,
     infinite: true,
@@ -27,7 +24,7 @@ const Navbar = () => {
 
   return (
     <Wrapper {...settings}>
-      {DUMMY.map((item) => {
+      {camp.map((item) => {
         const id = item.id;
 
         return (
