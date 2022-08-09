@@ -3,41 +3,29 @@ import { useLocation } from 'react-router-dom';
 import Notion from '../components/Notion';
 import styled from 'styled-components'
 import Navbar from '../components/ui/Navbar'
-//data
-import DUMMY from '../dummyData/dummyNotion';
-import DUMMY_CAMP_INFO from '../dummyData/dummyCamp';
+//redux
+import {useSelector, useDispatch} from 'react-redux';
+import {createNotionList} from '../y_redux/modules/notionReducer';
 
 function BlindBoard() {
   // 기본 렌더링 데이터 가져오기
   const {pathname} = useLocation();
   const campName = pathname.split('/')[1]
-  const [nowCampData, setNowCampData] = useState(null);
-  const [nowDataList, setNowDataList] = useState(null);
+  const [nowWeek, setNowWeek] = useState('week_1');
   // 기본적인 데이터 세팅
-  useEffect(() => {
-    setNowCampData(DUMMY_CAMP_INFO[campName])
-    setNowDataList(DUMMY[campName]['week_1'])
-  },[])
-
-  useEffect(() => {
-    if(nowDataList != null){
-      console.log(nowDataList)
-    }
-  },[nowDataList])
-  useEffect(() => {
-    if(nowCampData != null){
-      console.log(nowCampData)
-    }
-  },[nowCampData])
+  // redux 연결
+  const dispatch = useDispatch();
+  const notionList = useSelector((state) => state.notionReducer[campName][nowWeek]);
+  const campData = useSelector((state) => state.campReducer[campName]);
 
   //주차 변경
   const switchWeek = (e) => {
-    const week_id = e.target?.dataset?.id;
+    const week_id = e.target.dataset?.id;
     if(week_id === undefined){
-      alert('week에서 에러')
+      alert('switchweek에서 에러')
       return
     }
-    setNowDataList(DUMMY[campName][week_id])
+    setNowWeek(week_id);
   }
 
   //노션 작성 관련
@@ -48,14 +36,14 @@ function BlindBoard() {
     const notionDescriptionValue = notion_description.current.value;
 
     const newNowData = {
-      id: 'd15',
+      id: Date.now(),
       user_id: 'youngdong4', 
       title: notionTitleValue, 
       description: notionDescriptionValue, 
       like: 0,
     };
-    const newNowDataList = [newNowData, ...nowDataList];
-    setNowDataList(newNowDataList)
+        //이거 데이터 셋 복잡해서 생각한대로 동작 안함.
+    dispatch(createNotionList(campName, nowWeek, newNowData))
 
     notion_title.current.value = '';
     notion_description.current.value = '';
@@ -66,13 +54,13 @@ function BlindBoard() {
     <BlindBoardComp>
       <CampInfoComp>
         <article className='campInfo'>
-          {nowCampData !== null ? 
+          {campData !== null ? 
           <>
-            <img src={nowCampData.img} alt='이노베이션 이미지' />
-            <h3>{nowCampData.name}</h3>
-            <div> 캠프 기간 : {nowCampData.date}</div>
-            <div> 훈련 시간 : {nowCampData.time}</div>
-            <div> 훈련 방식 : {nowCampData.way}</div>
+            <img src={campData.img} alt='이노베이션 이미지' />
+            <h3>{campData.name}</h3>
+            <div> 캠프 기간 : {campData.date}</div>
+            <div> 훈련 시간 : {campData.time}</div>
+            <div> 훈련 방식 : {campData.way}</div>
           </>
           : <></>}
         </article>
@@ -95,8 +83,8 @@ function BlindBoard() {
       </CampInfoComp>
       <NotionContainerComp>
         <NotionContainer>
-          {nowDataList !== null && nowDataList.length !== 0 ? 
-          nowDataList.map((eachNotion) => {
+          {notionList !== null && notionList.length !== 0 ? 
+          notionList.map((eachNotion) => {
             return(
               <Notion key={eachNotion.id} data={eachNotion}/>
             )
