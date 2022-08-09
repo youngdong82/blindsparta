@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import {Provider} from 'react-redux';
+import store from './y_redux/configure';
 import './univ.css';
 
 import { Provider } from 'react-redux';

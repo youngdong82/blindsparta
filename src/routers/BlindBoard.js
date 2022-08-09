@@ -1,45 +1,53 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useLocation } from "react-router-dom";
-import Notion from "../components/Notion";
-import styled from "styled-components";
-import Navbar from "../components/ui/Navbar";
-//data
-import DUMMY from "../dummyData/dummyNotion";
-import DUMMY_CAMP_INFO from "../dummyData/dummyCamp";
+import React, { useEffect, useState, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+import Notion from '../components/Notion';
+import styled from 'styled-components'
+import Navbar from '../components/ui/Navbar'
+//redux
+import {useSelector, useDispatch} from 'react-redux';
+import {createNotionList} from '../y_redux/modules/notionReducer';
+import {loadCampFB} from '../y_redux/modules/campReducer';
+import {loadNotionFB, createNotionFB} from '../y_redux/modules/notionReducer';
+//temp
+import campImg from '../asset/camp_img.png';
 
 function BlindBoard() {
   // 기본 렌더링 데이터 가져오기
-  const { pathname } = useLocation();
-  const campName = pathname.split("/")[1];
-  console.log("campname", campName);
-  const [nowCampData, setNowCampData] = useState(null);
-  const [nowDataList, setNowDataList] = useState(null);
-  // 기본적인 데이터 세팅
+  const {pathname} = useLocation();
+  const campName = pathname.split('/')[1]
+  const [nowWeek, setNowWeek] = useState('week_1');
+  // 기본적인 데이터 세팅, firebase
   useEffect(() => {
-    setNowCampData(DUMMY_CAMP_INFO[campName]);
-    setNowDataList(DUMMY[campName]["week_1"]);
-  }, [pathname]);
-
+    dispatch(loadCampFB(campName));
+    dispatch(loadNotionFB(campName));
+  },[])
+  // redux
+  const dispatch = useDispatch();
+  const whole_notionList = useSelector((state) => state.notionReducer.notionList);
+  const campData = useSelector((state) => state.campReducer.campData);
+  const [notionList, setNotionList] = useState([]);
   useEffect(() => {
-    if (nowDataList != null) {
-      console.log(nowDataList);
-    }
-  }, [nowDataList]);
+      const filtered_notionList = whole_notionList.filter((each) => {
+        return each.week === nowWeek
+      })
+      setNotionList(filtered_notionList)
+  },[])
   useEffect(() => {
-    if (nowCampData != null) {
-      console.log(nowCampData);
-    }
-  }, [nowCampData]);
+      const filtered_notionList = whole_notionList.filter((each) => {
+        return each.week === nowWeek
+      })
+      setNotionList(filtered_notionList)
+  },[nowWeek])
 
   //주차 변경
   const switchWeek = (e) => {
-    const week_id = e.target?.dataset?.id;
-    if (week_id === undefined) {
-      alert("week에서 에러");
-      return;
+    const week_id = e.target.dataset?.id;
+    if(week_id === undefined){
+      alert('switchweek에서 에러')
+      return
     }
-    setNowDataList(DUMMY[campName][week_id]);
-  };
+    setNowWeek(week_id);
+  }
 
   //노션 작성 관련
   const notion_title = useRef();
@@ -49,79 +57,70 @@ function BlindBoard() {
     const notionDescriptionValue = notion_description.current.value;
 
     const newNowData = {
-      id: "d15",
-      user_id: "youngdong4",
-      title: notionTitleValue,
-      description: notionDescriptionValue,
+      camp_name: campName,
+      week: nowWeek,
+      user_id: 'youngdong4', 
+      title: notionTitleValue, 
+      description: notionDescriptionValue, 
       like: 0,
     };
-    const newNowDataList = [newNowData, ...nowDataList];
-    setNowDataList(newNowDataList);
+        //이거 데이터 셋 복잡해서 생각한대로 동작 안함.
+    dispatch(createNotionFB(newNowData))
 
     notion_title.current.value = "";
     notion_description.current.value = "";
   };
   return (
     <CampComp>
-      <Navbar />
-      <BlindBoardComp>
-        <CampInfoComp>
-          <article className="campInfo">
-            {nowCampData !== null ? (
-              <>
-                <img src={nowCampData.img} alt="이노베이션 이미지" />
-                <h3>{nowCampData.name}</h3>
-                <div> 캠프 기간 : {nowCampData.date}</div>
-                <div> 훈련 시간 : {nowCampData.time}</div>
-                <div> 훈련 방식 : {nowCampData.way}</div>
-              </>
-            ) : (
-              <></>
-            )}
-          </article>
-          <article className="weekContainer" onClick={switchWeek}>
-            <div data-id="week_1">1주차</div>
-            <div data-id="week_2">2주차</div>
-            <div data-id="week_3">3주차</div>
-            <div data-id="week_4">4주차</div>
-            <div data-id="week_5">5주차</div>
-            <div data-id="week_6">6주차</div>
-            <div data-id="week_7">7주차</div>
-            <div data-id="week_8">8주차</div>
-            <div data-id="week_9">9주차</div>
-            <div data-id="week_10">10주차</div>
-            <div data-id="week_11">11주차</div>
-            <div data-id="week_12">12주차</div>
-            <div data-id="week_13">13주차</div>
-            <div data-id="week_14">14주차</div>
-          </article>
-        </CampInfoComp>
-        <NotionContainerComp>
-          <NotionContainer>
-            {nowDataList !== null && nowDataList.length !== 0 ? (
-              nowDataList.map((eachNotion) => {
-                return <Notion key={eachNotion.id} data={eachNotion} />;
-              })
-            ) : (
-              <></>
-            )}
-          </NotionContainer>
-          <NotionInput>
-            <label>더 하고 싶은 말이 있나요?</label>
-            <input
-              ref={notion_title}
-              type="text"
-              placeholder="글 제목을 적어주세요"
-            />
-            <input
-              ref={notion_description}
-              type="text"
-              placeholder="글 내용을 적어주세요"
-            />
-            <button onClick={submitNotion}>작성하기</button>
-          </NotionInput>
-        </NotionContainerComp>
-      </BlindBoardComp>
+    <Navbar />
+    <BlindBoardComp>
+      <CampInfoComp>
+        <article className='campInfo'>
+          {campData !== null ? 
+          <>
+            <img src={campImg} alt='이노베이션 이미지' />
+            <h3>{campData.name}</h3>
+            <div> 캠프 기간 : {campData.date}</div>
+            <div> 훈련 시간 : {campData.time}</div>
+            <div> 훈련 방식 : {campData.way}</div>
+          </>
+          : <></>}
+        </article>
+        <article className='weekContainer'onClick={switchWeek}>
+          <div data-id='week_1'>1주차</div>
+          <div data-id='week_2'>2주차</div>
+          <div data-id='week_3'>3주차</div>
+          <div data-id='week_4'>4주차</div>
+          <div data-id='week_5'>5주차</div>
+          <div data-id='week_6'>6주차</div>
+          <div data-id='week_7'>7주차</div>
+          <div data-id='week_8'>8주차</div>
+          <div data-id='week_9'>9주차</div>
+          <div data-id='week_10'>10주차</div>
+          <div data-id='week_11'>11주차</div>
+          <div data-id='week_12'>12주차</div>
+          <div data-id='week_13'>13주차</div>
+          <div data-id='week_14'>14주차</div>
+        </article>
+      </CampInfoComp>
+      <NotionContainerComp>
+        <NotionContainer>
+          {notionList !== null && notionList.length !== 0 ? 
+          notionList.map((eachNotion) => {
+            return(
+              <Notion key={eachNotion.id} data={eachNotion}/>
+            )
+          })
+          : <></>}
+        </NotionContainer>
+        <NotionInput>
+          <label>더 하고 싶은 말이 있나요?</label>
+          <input ref={notion_title} type='text' placeholder='글 제목을 적어주세요'/>
+          <input ref={notion_description} type='text' placeholder='글 내용을 적어주세요' />
+          <button onClick={submitNotion}>작성하기</button>
+        </NotionInput>
+      </NotionContainerComp>
+    </BlindBoardComp>
     </CampComp>
   );
 }

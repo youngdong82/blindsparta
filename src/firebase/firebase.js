@@ -20,20 +20,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-
-
-// createUserWithEmailAndPassword(auth, email, password)
-//     .then((userCredential) => {
-//     // Signed in
-//     const user = userCredential.user;
-//     // ...
-//     })
-//     .catch((error) => {
-//     const errorCode = error.code;
-//     const errorMessage = error.message;
-//     // ..
-//     });
-
 export const auth = getAuth();
 export const db = getFirestore(app);
 export default app;
