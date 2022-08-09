@@ -1,42 +1,16 @@
-import campImg from '../../asset/camp_img.png';
+import { db } from '../../firebase/firebase';
+import {collection, addDoc, getDocs, getDoc} from 'firebase/firestore';
 
 const LOAD = 'campList/LOAD';
 const CREATE = 'campList/CREATE';
 const REMOVE = 'campList/REMOVE';
 
 const initialState = {
-  'dongjak': {
-    name: '이노베이션 in 동작',
-    date: '2022.07.11 ~ 2022.10.21',
-    time: '월~토(공휴일 제외) 오전 9시 ~ 오후 9시',
-    way: '온라인 부트캠프',
-    img: campImg
-  },
-  'kangwon': {
-    name: '이노베이션 in 강원',
-    date: '2022.08.01 ~ 2022.11.04',
-    time: '월~토(공휴일 제외) 오전 9시 ~ 오후 9시',
-    way: '온라인 부트캠프',
-    img: campImg
-  },
-  'hanghae99_9': {
-    name: '항해99 9기',
-    date: '2022.09.19 ~ 2022.12.23',
-    time: '월~토(공휴일 제외) 오전 9시 ~ 오후 9시',
-    way: '온라인 부트캠프',
-    img: campImg
-  },
-  'hanghae99_10': {
-    name: '항해99 10기',
-    date: '2022.11.07 ~ 2023.02.10',
-    time: '월~토(공휴일 제외) 오전 9시 ~ 오후 9시',
-    way: '온라인 부트캠프',
-    img: campImg
-  }
+  campData: {}
 }
 
-export function loadCampList(campList){
-  return {type: LOAD, campList}
+export function loadCamp(camp_data){
+  return {type: LOAD, camp_data}
 }
 export function createCampList(camp_data){
   return {type: CREATE, camp_data}
@@ -45,10 +19,24 @@ export function removeCampList(camp_id){
   return {type: REMOVE, camp_id}
 }
 
+export function loadCampFB(campName){
+  return async function(dispatch){
+    const campListFB = await getDocs(collection(db,'camp_list'));
+    let camp_data = {}
+    campListFB.forEach((each) => {
+      const decoded_each = each.data();
+      if(decoded_each.camp_name === campName){
+        camp_data = {...decoded_each}
+      }
+    })
+    dispatch(loadCamp(camp_data))
+  }
+}
+
 const campReducer = (state = initialState, action = {}) => {
   switch(action.type){
     case LOAD:{
-      return {...state, campList: action.campList}
+      return {...state, campData: action.camp_data}
     }
     case CREATE:{
       const new_camp_list = [...state.campList, action.camp_data]
