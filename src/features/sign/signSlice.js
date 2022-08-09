@@ -98,17 +98,17 @@ export default function signReducer(state = initialState, action = {}) {
         }
             
         case SIGNIN: {
-            // const imsi = {
-            //         ...state,
-            //         users: [
-            //             ...state.users
-            //         ],
-            //         current_user: [
-            //             action.curUser
-            //         ],
-            //         isLoggedIn: true,
-            //     }
-            // console.log(imsi);
+            const imsi = {
+                    ...state,
+                    users: [
+                        ...state.users
+                    ],
+                    current_user: [
+                        action.curUser
+                    ],
+                    isLoggedIn: true,
+                }
+            console.log(imsi);
             return {
                 ...state,
                 users: [
