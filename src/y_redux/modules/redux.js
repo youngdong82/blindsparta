@@ -8,7 +8,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
-import { db } from "../../firebase/y_firebase";
+import { db } from "../../firebase/firebase";
 
 const initialState = {
   camp_list: [
