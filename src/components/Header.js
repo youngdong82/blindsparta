@@ -7,7 +7,6 @@ import { auth } from "../firebase/firebase";
 import { onAuthStateChanged } from 'firebase/auth';
 import { signOutFB } from '../y_redux/modules/signReducer';
 
-
 function Header() {
   const [isLogin, setIsLogin] = useState(false);
   const dispatch = useDispatch();

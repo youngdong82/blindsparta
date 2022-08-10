@@ -5,8 +5,10 @@ import { collection, addDoc } from 'firebase/firestore';
 import { auth, db } from "../../firebase/firebase"
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import logoImg from '../../asset/dongjak.png';
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp({toggleIsLogin}) {
+    const navigate = useNavigate()
 
     const idInputRef = React.useRef();
     const nickNameInputRef = React.useRef();
