@@ -17,7 +17,7 @@ const MainPage = () => {
       <hr className='bar'></hr>
       <List />
       <button className='addbtn' onClick={addCamp}>
-        캠프추가하기
+         + 
       </button>
       {istoggle && <Modal toggle={setIsToggle} />}
     </div>

@@ -13,13 +13,13 @@ const List = () => {
 
   const settings = {
     className: "center",
-    centerMode: false,
+    centerMode: true,
     infinite: true,
     centerPadding: "60px",
     slidesToShow: 1,
     speed: 500,
-    rows: 2,
-    slidesPerRow: 3,
+    rows: 1,
+    slidesPerRow: 2,
     dots: true,
   };
 

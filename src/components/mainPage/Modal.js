@@ -1,7 +1,15 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { createCamp } from "../../y_redux/modules/redux";
+// import {db} from "../../firebase/s_firebase"
+
+// React.useEffect(()=>{
+//   console.log(db);
+// }, []);
+
+
+
 const Modal = ({ toggle }) => {
   const dispatch = useDispatch();
 
@@ -34,6 +42,9 @@ const Modal = ({ toggle }) => {
       <Backdrop onClick={() => toggle(false)}></Backdrop>
       <FormBox>
         <form onSubmit={submitHandler}>
+          <div>캠프 추가하기</div>
+          <br></br>
+
           <input placeholder="캠프지역"></input>
           <input placeholder="캠프이름"></input>
 
@@ -43,6 +54,21 @@ const Modal = ({ toggle }) => {
     </>
   );
 };
+
+
+// const comment_comment = useRef();
+//   const submitComment = () => {
+//     const commentValue = comment_comment.current.value;
+
+//     const newComment = {
+//       user_id: data.user_id,
+//       notion_id: data.id,
+//       comment: commentValue,
+//     };
+//     dispatch(createCommentFB(newComment));
+//     comment_comment.current.value = '';
+
+
 
 export default Modal;
 const Wrapper = styled.div`
