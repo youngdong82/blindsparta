@@ -1,4 +1,4 @@
-import { collection, addDoc, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { collection, addDoc, getDocs, deleteDoc, doc, query, where } from "firebase/firestore";
 import { db } from '../../firebase/firebase';
 // 액션
 const LOAD = 'notionList/LOAD';
@@ -22,13 +22,16 @@ export function removeNotionList(notion_id){
 
 export function loadNotionFB(campName, nowWeek){
   return async function(dispatch){
-    const notion_firebase = await getDocs(collection(db, 'notion_list'));
+    //복합쿼리 이용
+    const notion_firebase = await getDocs(
+      query(
+        collection(db,'notion_list'),
+        where('camp_name', '==',campName),
+        where('week', '==',nowWeek)
+      ));
     let notionList = [];
     notion_firebase.forEach((each) => {
-      const decoded_each = each.data();
-      if(decoded_each.camp_name === campName && decoded_each.week === nowWeek){
-        notionList.push({id: each.id, ...decoded_each})
-      }
+      notionList.push({id: each.id, ...each.data()})
     })
     dispatch(loadNotionList(notionList))
   }
