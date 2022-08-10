@@ -18,14 +18,17 @@ const Box = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  white-space: wrap;
+
   ${(props) =>
     props.type === "nav" &&
     css`
       width: 200px;
       height: 100px;
     `}
-  white-space:nowrap;
+
   p {
     cursor: pointer;
+    width: 130px;
   }
 `;
