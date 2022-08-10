@@ -1,15 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { createCamp } from "../../y_redux/modules/redux";
-// import {db} from "../../firebase/s_firebase"
-
-// React.useEffect(()=>{
-//   console.log(db);
-// }, []);
-
-
-
+import { createCamp, createCampFB } from "../../y_redux/modules/redux";
 const Modal = ({ toggle }) => {
   const dispatch = useDispatch();
 
@@ -31,9 +23,16 @@ const Modal = ({ toggle }) => {
       setId(inputId);
       setName(inputName);
       toggle(false);
-      console.log(inputId);
-      console.log(inputName);
-      dispatch(createCamp({ id: inputId, name: inputName }));
+
+      dispatch(
+        createCampFB({
+          camp_name: inputId,
+          date: "2022.08.01~2022.11.04",
+          name: inputName,
+          time: "월~토(공휴일 제외)오전9시~오후9시",
+          way: "온라인 부트캠프",
+        })
+      );
     }
   };
 
