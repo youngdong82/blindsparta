@@ -5,9 +5,18 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { loadCampFB } from "../../y_redux/modules/redux";
+import { useDispatch } from "react-redux";
 
 const Navbar = () => {
-  const camp = useSelector((state) => state.reducer.camp);
+  const camp = useSelector((state) => state.reducer.camp_list);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadCampFB());
+  }, [loadCampFB]);
+
   const settings = {
     dots: false,
     infinite: true,
@@ -22,11 +31,11 @@ const Navbar = () => {
   return (
     <Wrapper {...settings}>
       {camp.map((item) => {
-        const id = item.id;
+        const id = item.camp_name;
         return (
           <Card key={id} type={"nav"}>
             <Link className="link" to={`/${id}`}>
-              <img src="assets/img/channel_talk_btn.png" alt='cheannel_img' />
+              <img src="assets/img/channel_talk_btn.png" alt="cheannel_img" />
               <p>{item.name}</p>
             </Link>
           </Card>
@@ -48,6 +57,8 @@ const Wrapper = styled(Slider)`
 
   background: #ecf0f1;
   position: relative;
+  .slick-slider {
+  }
   .slick-arrow {
     background: #9e9e9e61;
 
@@ -63,8 +74,8 @@ const Wrapper = styled(Slider)`
     left: 30px;
 
     &::before {
-      opacity: 0; // 기존에 숨어있던 화살표 버튼이 보이게
-      color: red; // 버튼 색은 검은색으로
+      opacity: 1; // 기존에 숨어있던 화살표 버튼이 보이게
+      color: #e3344d; // 버튼 색은 검은색으로
     }
   }
   .slick-next {
@@ -73,7 +84,7 @@ const Wrapper = styled(Slider)`
 
     &::before {
       opacity: 1;
-      color: red;
+      color: #e3344d;
     }
   }
   img {
