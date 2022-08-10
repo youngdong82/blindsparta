@@ -1,0 +1,29 @@
+.layout {
+  max-width: 1200px;
+  min-width: 1000px;
+  margin: auto;
+  text-align: center;
+}
+.title {
+  /* background-color: antiquewhite; */
+  width: 800px;
+  text-align: center;
+  margin: auto;
+}
+.bar {
+  width: 800px;
+}
+.addbtn {
+  /* background-color: white; */
+  width: 30px;
+  height: 30px;
+  margin-top: 100px;
+  font-size: 15px;
+  /* 왼쪽하단정렬 */
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+.addbtn:hover {
+  background-color: rgb(204, 225, 243);
+}

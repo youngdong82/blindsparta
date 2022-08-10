@@ -1,19 +1,29 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import DUMMY_COMMENT from '../dummyData/dummyComment';
+import {useSelector, useDispatch} from 'react-redux';
+import {loadCommentFB, createCommentFB} from '../../y_redux/modules/commentReducer';
 
 function Notion({data}) {
+  // redux 연결
+  const dispatch = useDispatch();
+  const comments_redux = useSelector((state) => state.commentReducer.commentList);
   const [comments, setComments] = useState([]);
   useEffect(() => {
-    const thisComments = DUMMY_COMMENT.filter((eachComment) => {
-      if(data.id === eachComment.notion_id){
-        return true;
-      }else{
-        return false;
-      }
-    });
-    setComments(thisComments);
+    dispatch(loadCommentFB());
   },[])
+
+  useEffect(() => {
+    if(comments_redux.length !== 0){
+      const thisComments = comments_redux.filter((eachComment) => {
+        if(data.id === eachComment.notion_id){
+          return true;
+        }else{
+          return false;
+        }
+      });
+      setComments(thisComments);
+    }
+  },[comments_redux]);
 
   //comment 작성 관련
   const comment_comment = useRef();
@@ -21,14 +31,11 @@ function Notion({data}) {
     const commentValue = comment_comment.current.value;
 
     const newComment = {
-      id:8,
       user_id: data.user_id,
       notion_id: data.id,
       comment: commentValue,
     };
-    const newComments = [...comments, newComment];
-    setComments(newComments)
-
+    dispatch(createCommentFB(newComment));
     comment_comment.current.value = '';
   }
 

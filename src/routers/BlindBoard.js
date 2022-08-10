@@ -1,43 +1,52 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import Notion from '../components/Notion';
+import Notion from '../components/blindBoard/Notion';
 import styled from 'styled-components'
-import Navbar from '../components/ui/Navbar'
-//data
-import DUMMY from '../dummyData/dummyNotion';
-import DUMMY_CAMP_INFO from '../dummyData/dummyCamp';
+import Navbar from '../components/blindBoard/Navbar'
+//redux
+import {useSelector, useDispatch} from 'react-redux';
+import {createNotionList} from '../y_redux/modules/notionReducer';
+import {loadCampFB} from '../y_redux/modules/campReducer';
+import {loadNotionFB, createNotionFB} from '../y_redux/modules/notionReducer';
+//temp
+import campImg from '../asset/camp_img.png';
 
 function BlindBoard() {
   // 기본 렌더링 데이터 가져오기
   const {pathname} = useLocation();
   const campName = pathname.split('/')[1]
-  const [nowCampData, setNowCampData] = useState(null);
-  const [nowDataList, setNowDataList] = useState(null);
-  // 기본적인 데이터 세팅
+  const [nowWeek, setNowWeek] = useState('week_1');
+  // 기본적인 데이터 세팅, firebase
   useEffect(() => {
-    setNowCampData(DUMMY_CAMP_INFO[campName])
-    setNowDataList(DUMMY[campName]['week_1'])
+    dispatch(loadCampFB(campName));
+    dispatch(loadNotionFB(campName));
   },[])
-
+  // redux
+  const dispatch = useDispatch();
+  const whole_notionList = useSelector((state) => state.notionReducer.notionList);
+  const campData = useSelector((state) => state.campReducer.campData);
+  const [notionList, setNotionList] = useState([]);
   useEffect(() => {
-    if(nowDataList != null){
-      console.log(nowDataList)
-    }
-  },[nowDataList])
+      const filtered_notionList = whole_notionList.filter((each) => {
+        return each.week === nowWeek
+      })
+      setNotionList(filtered_notionList)
+  },[])
   useEffect(() => {
-    if(nowCampData != null){
-      console.log(nowCampData)
-    }
-  },[nowCampData])
+      const filtered_notionList = whole_notionList.filter((each) => {
+        return each.week === nowWeek
+      })
+      setNotionList(filtered_notionList)
+  },[nowWeek])
 
   //주차 변경
   const switchWeek = (e) => {
-    const week_id = e.target?.dataset?.id;
+    const week_id = e.target.dataset?.id;
     if(week_id === undefined){
-      alert('week에서 에러')
+      alert('switchweek에서 에러')
       return
     }
-    setNowDataList(DUMMY[campName][week_id])
+    setNowWeek(week_id);
   }
 
   //노션 작성 관련
@@ -48,31 +57,32 @@ function BlindBoard() {
     const notionDescriptionValue = notion_description.current.value;
 
     const newNowData = {
-      id: 'd15',
+      camp_name: campName,
+      week: nowWeek,
       user_id: 'youngdong4', 
       title: notionTitleValue, 
       description: notionDescriptionValue, 
       like: 0,
     };
-    const newNowDataList = [newNowData, ...nowDataList];
-    setNowDataList(newNowDataList)
+        //이거 데이터 셋 복잡해서 생각한대로 동작 안함.
+    dispatch(createNotionFB(newNowData))
 
-    notion_title.current.value = '';
-    notion_description.current.value = '';
-  }
+    notion_title.current.value = "";
+    notion_description.current.value = "";
+  };
   return (
     <CampComp>
     <Navbar />
     <BlindBoardComp>
       <CampInfoComp>
         <article className='campInfo'>
-          {nowCampData !== null ? 
+          {campData !== null ? 
           <>
-            <img src={nowCampData.img} alt='이노베이션 이미지' />
-            <h3>{nowCampData.name}</h3>
-            <div> 캠프 기간 : {nowCampData.date}</div>
-            <div> 훈련 시간 : {nowCampData.time}</div>
-            <div> 훈련 방식 : {nowCampData.way}</div>
+            <img src={campImg} alt='이노베이션 이미지' />
+            <h3>{campData.name}</h3>
+            <div> 캠프 기간 : {campData.date}</div>
+            <div> 훈련 시간 : {campData.time}</div>
+            <div> 훈련 방식 : {campData.way}</div>
           </>
           : <></>}
         </article>
@@ -95,8 +105,8 @@ function BlindBoard() {
       </CampInfoComp>
       <NotionContainerComp>
         <NotionContainer>
-          {nowDataList !== null && nowDataList.length !== 0 ? 
-          nowDataList.map((eachNotion) => {
+          {notionList !== null && notionList.length !== 0 ? 
+          notionList.map((eachNotion) => {
             return(
               <Notion key={eachNotion.id} data={eachNotion}/>
             )
@@ -116,38 +126,37 @@ function BlindBoard() {
 }
 const CampComp = styled.div`
   display: flex;
-`
+`;
 const BlindBoardComp = styled.main`
   width: 80vw;
   height: 84vh;
   display: flex;
   overflow: hidden;
-`
+`;
 const CampInfoComp = styled.section`
   width: 30%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  & .campInfo{
+  & .campInfo {
     height: 50%;
   }
-  & .campInfo > img{
+  & .campInfo > img {
     width: 100%;
     height: 50%;
   }
 
-  & .weekContainer{
+  & .weekContainer {
     height: 50%;
     overflow-y: scroll;
   }
-  & .weekContainer > div{
+  & .weekContainer > div {
     width: 100%;
     height: 40px;
     text-align: center;
     cursor: pointer;
   }
-
-`
+`;
 const NotionContainerComp = styled.section`
   width: 100%;
   height: 100%;
