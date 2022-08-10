@@ -48,7 +48,7 @@ function Notion({data}) {
     <NotionComp>
       <div>
           <h3>{data.title}</h3>
-          <span>작성자: {data.id}</span>
+          <span>작성자: {data.user_id}</span>
           <button onClick={toggleLike}>추천 수 : {data.like + like}</button>
       </div>
       <p>{data.description}</p>

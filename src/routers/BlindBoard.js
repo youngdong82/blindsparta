@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import Navbar from '../components/blindBoard/Navbar'
 //redux
 import {useSelector, useDispatch} from 'react-redux';
-import {createNotionList} from '../y_redux/modules/notionReducer';
 import {loadCampFB} from '../y_redux/modules/campReducer';
 import {loadNotionFB, createNotionFB} from '../y_redux/modules/notionReducer';
 //temp
@@ -16,29 +15,15 @@ function BlindBoard() {
   const {pathname} = useLocation();
   const campName = pathname.split('/')[1]
   const [nowWeek, setNowWeek] = useState('week_1');
-  // 기본적인 데이터 세팅, firebase
+  // 기본적인 데이터 세팅, firebase에서 redux state로 설정하고 가져오기.
+  const dispatch = useDispatch();
+  const notionList = useSelector((state) => state.notionReducer.notionList);
+  const campData = useSelector((state) => state.campReducer.campData);
+
   useEffect(() => {
     dispatch(loadCampFB(campName));
-    dispatch(loadNotionFB(campName));
-  },[])
-  // redux
-  const dispatch = useDispatch();
-  const whole_notionList = useSelector((state) => state.notionReducer.notionList);
-  const campData = useSelector((state) => state.campReducer.campData);
-  const [notionList, setNotionList] = useState([]);
-  useEffect(() => {
-      const filtered_notionList = whole_notionList.filter((each) => {
-        return each.week === nowWeek
-      })
-      setNotionList(filtered_notionList)
-  },[])
-  useEffect(() => {
-      const filtered_notionList = whole_notionList.filter((each) => {
-        return each.week === nowWeek
-      })
-      setNotionList(filtered_notionList)
+    dispatch(loadNotionFB(campName, nowWeek));
   },[nowWeek])
-
   //주차 변경
   const switchWeek = (e) => {
     const week_id = e.target.dataset?.id;
@@ -64,7 +49,7 @@ function BlindBoard() {
       description: notionDescriptionValue, 
       like: 0,
     };
-        //이거 데이터 셋 복잡해서 생각한대로 동작 안함.
+
     dispatch(createNotionFB(newNowData))
 
     notion_title.current.value = "";
