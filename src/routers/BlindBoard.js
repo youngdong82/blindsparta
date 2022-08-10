@@ -7,6 +7,7 @@ import Navbar from '../components/blindBoard/Navbar'
 import {useSelector, useDispatch} from 'react-redux';
 import {loadCampFB} from '../y_redux/modules/campReducer';
 import {loadNotionFB, createNotionFB} from '../y_redux/modules/notionReducer';
+import { auth } from '../firebase/firebase';
 //temp
 import campImg from '../asset/camp_img.png';
 
@@ -19,6 +20,7 @@ function BlindBoard() {
   const dispatch = useDispatch();
   const notionList = useSelector((state) => state.notionReducer.notionList);
   const campData = useSelector((state) => state.campReducer.campData);
+  const userData = auth.currentUser?.email
 
   useEffect(() => {
     dispatch(loadCampFB(campName));
@@ -44,7 +46,7 @@ function BlindBoard() {
     const newNowData = {
       camp_name: campName,
       week: nowWeek,
-      user_id: 'youngdong4', 
+      user_id: userData, 
       title: notionTitleValue, 
       description: notionDescriptionValue, 
       like: 0,
@@ -93,7 +95,7 @@ function BlindBoard() {
           {notionList !== null && notionList.length !== 0 ? 
           notionList.map((eachNotion) => {
             return(
-              <Notion key={eachNotion.id} data={eachNotion}/>
+              <Notion key={eachNotion.id} data={eachNotion} userData={userData}/>
             )
           })
           : <></>}

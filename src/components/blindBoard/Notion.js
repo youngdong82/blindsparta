@@ -2,8 +2,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import {useSelector, useDispatch} from 'react-redux';
 import {loadCommentFB, createCommentFB} from '../../y_redux/modules/commentReducer';
+import { removeNotionFB } from '../../y_redux/modules/notionReducer';
 
-function Notion({data}) {
+function Notion({data, userData}) {
   // redux 연결
   const dispatch = useDispatch();
   const comments_redux = useSelector((state) => state.commentReducer.commentList);
@@ -44,12 +45,22 @@ function Notion({data}) {
   const toggleLike = () => {
     setLike(!like)
   }
+  const removeNotion = (e) => {
+    const notion = e.target.closest('article');
+    const notion_id = notion.dataset.id
+    dispatch(removeNotionFB(notion_id))
+  }
   return (
-    <NotionComp>
+    <NotionComp data-id={data.id}>
       <div>
           <h3>{data.title}</h3>
           <span>작성자: {data.user_id}</span>
           <button onClick={toggleLike}>추천 수 : {data.like + like}</button>
+          {userData && userData === data.user_id ? 
+          <button onClick={removeNotion}>x</button>
+          :
+          <></>
+          }
       </div>
       <p>{data.description}</p>
       <ul>

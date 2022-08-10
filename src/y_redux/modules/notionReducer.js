@@ -40,6 +40,12 @@ export function createNotionFB(newNowData){
     dispatch(createNotionList(new_notion_data));
   }
 }
+export function removeNotionFB(notion_id){
+  return async function(dispatch){
+    await deleteDoc(doc(db,'notion_list',notion_id))
+    dispatch(removeNotionList(notion_id));
+  }
+}
 
 const notionReducer = (state=initialState, action={}) => {
   switch (action.type){
