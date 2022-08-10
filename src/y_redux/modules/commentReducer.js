@@ -42,9 +42,9 @@ export function createCommentFB(comment_data){
     dispatch(createCommentList(new_commnet_data))
   }
 }
-//만들어야함.
-export function removeCommentListFB(comment_id){
+export function removeCommentFB(comment_id){
   return async function(dispatch){
+    await deleteDoc(doc(db,'comment_list',comment_id))
     dispatch(removeCommentList(comment_id))
   }
 }
@@ -60,7 +60,7 @@ const commentReducer = (state = initialState, action = {}) => {
     }
     case REMOVE:{
       const new_comment_list = state.commentList.filter((each) => {
-        return each.id !== action.notion_id
+        return each.id !== action.comment_id
       })
       return {...state, commentList: new_comment_list}
     }

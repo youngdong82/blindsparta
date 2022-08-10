@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import {useSelector, useDispatch} from 'react-redux';
-import {loadCommentFB, createCommentFB} from '../../y_redux/modules/commentReducer';
+import {loadCommentFB, createCommentFB, removeCommentFB} from '../../y_redux/modules/commentReducer';
 import { removeNotionFB } from '../../y_redux/modules/notionReducer';
 
 function Notion({data, userData}) {
@@ -14,16 +14,13 @@ function Notion({data, userData}) {
   },[])
 
   useEffect(() => {
-    if(comments_redux.length !== 0){
       const thisComments = comments_redux.filter((eachComment) => {
         if(data.id === eachComment.notion_id){
           return true;
-        }else{
-          return false;
         }
+        return false;
       });
       setComments(thisComments);
-    }
   },[comments_redux]);
 
   //comment 작성 관련
@@ -52,6 +49,12 @@ function Notion({data, userData}) {
     const notion_id = notion.dataset.id
     dispatch(removeNotionFB(notion_id))
   }
+  const removeComment = (e) => {
+    const notion = e.target.closest('li');
+    const notion_id = notion.dataset.id
+    dispatch(removeCommentFB(notion_id))
+  }
+
   return (
     <NotionComp data-id={data.id}>
       <div>
@@ -69,7 +72,14 @@ function Notion({data, userData}) {
           {comments.length !== 0 ? 
             comments.map((eachComment) => {
               return(
-                <li key={eachComment.id}>{eachComment.comment}</li>
+                  <li key={eachComment.id} data-id={eachComment.id}>
+                    <span>{eachComment.comment}</span>
+                    {userData && userData === eachComment.user_id ? 
+                      <button onClick={removeComment}>x</button>
+                      :
+                      <></>
+                    }
+                  </li>
               )
             }) : <></>
           }
