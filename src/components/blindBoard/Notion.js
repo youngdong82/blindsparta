@@ -10,7 +10,7 @@ function Notion({data, userData}) {
   const comments_redux = useSelector((state) => state.commentReducer.commentList);
   const [comments, setComments] = useState([]);
   useEffect(() => {
-    dispatch(loadCommentFB());
+    dispatch(loadCommentFB(data.camp_name, data.week));
   },[])
 
   useEffect(() => {
@@ -32,6 +32,8 @@ function Notion({data, userData}) {
     const commentValue = comment_comment.current.value;
 
     const newComment = {
+      camp_name: data.camp_name,
+      week: data.week,
       user_id: data.user_id,
       notion_id: data.id,
       comment: commentValue,
