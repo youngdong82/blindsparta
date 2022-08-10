@@ -30,7 +30,7 @@ export default function SignUp({toggleIsLogin}) {
             }
             signUp(enteredId, enteredNickName, enteredPw, selectedCamp);
             alert('회원가입을 완료했습니다!');
-            toggleIsLogin();
+            navigate('/');
         }
         else{
             alert('다시 입력해주세요!');
@@ -48,7 +48,7 @@ export default function SignUp({toggleIsLogin}) {
             <input ref={idInputRef} type="email" id="id" name="id" placeholder="아이디" required />
 
             <label htmlFor="id">닉네임</label>
-            <input ref={nickNameInputRef} type="text" id="id" name="id" placeholder="닉네임" required />
+            <input ref={nickNameInputRef} type="text" id="nickname" name="nickname" placeholder="닉네임" required />
 
             <label htmlFor="pw">비밀번호</label>
             <input ref={pwInputRef} type="password" id="pw" name="pw" placeholder="비밀번호" required />
