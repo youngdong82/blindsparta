@@ -38,9 +38,14 @@ export const signInFB = (Id, Pw) => {
         // console.log(usr);
         const user_docs = await getDocs(query(collection(db, "users"), where("userid", "==", usr.user.email)))
         
+        const temp = [];
         user_docs.forEach((v) => {
-            dispatch(loginUser(v.data()))
-        });
+            temp.push(v.data());
+        })
+
+        console.log(temp);
+        dispatch(loginUser(temp))
+        
     }
 }
 
@@ -55,7 +60,8 @@ export const signOutFB = () => {
 export default function signReducer(state = initialState, action = {}) {
     switch (action.type) {
         case SIGNIN: {
-            return { current_user: [ action.user_data ] };
+            // console.log(action.user_data);
+            return { current_user: action.user_data };
         }
 
         case SIGNOUT: {

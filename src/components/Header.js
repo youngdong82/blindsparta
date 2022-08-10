@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 //firebase
 import { auth } from "../firebase/firebase";
 import { onAuthStateChanged } from 'firebase/auth';
 import { signOutFB } from '../y_redux/modules/signReducer';
 
 function Header() {
+  // const curuser = useSelector(state => state);
+  // console.log(curuser)
   const [isLogin, setIsLogin] = useState(false);
   const dispatch = useDispatch();
 
