@@ -8,8 +8,6 @@ function Notion({data, deleteNotion}) {
   const dispatch = useDispatch();
   const comments_redux = useSelector((state) => state.commentReducer.commentList);
   const [comments, setComments] = useState([]);
-  // 삭제 권한 확인
-  const isAdmin = useSelector(state => state.signReducer.admin);
 
   useEffect(() => {
     dispatch(loadCommentFB())
@@ -55,10 +53,7 @@ function Notion({data, deleteNotion}) {
           <span>작성자: {data.user_id}</span>
           <div>
             <button onClick={toggleLike}>추천 수 : {data.like + like}</button>
-            { isAdmin
-            ? <button onClick={() => {deleteNotion(data.title)}}>삭제</button>
-            : <></>
-            }
+            <button onClick={() => {deleteNotion(data.title)}}>삭제</button>
           </div>
       </div>
       <p>{data.description}</p>
