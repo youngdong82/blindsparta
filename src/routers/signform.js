@@ -8,22 +8,8 @@ import SignIn from "../components/signform/SignIn";
 
 const SignForm = () => {
     const [isSigned, setIsSigned] = useState(false);
-    // const [isLogin, setIsLogin] = useState(false);
-
-    // const loginCheck = async(user) => {
-    //     if (user) {
-    //         setIsLogin(true);
-    //     } else {
-    //         setIsLogin(false);
-    //     }
-    // };
-
-    // React.useEffect(() => {
-    //     onAuthStateChanged(auth, loginCheck);
-    // }, []);
 
     const toggleIsLogin = () => {
-        console.log('clickeddd')
         setIsSigned(!isSigned)
     }
 

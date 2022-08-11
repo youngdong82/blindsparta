@@ -1,4 +1,4 @@
-import { collection, addDoc, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { collection, addDoc, getDocs, deleteDoc, doc, where, query } from "firebase/firestore";
 import { db } from '../../firebase/firebase';
 // 액션
 const LOAD = 'notionList/LOAD';
@@ -20,6 +20,7 @@ export function removeNotionList(notion_id){
   return {type: REMOVE, notion_id}
 }
 
+//미들웨어
 export function loadNotionFB(campName, nowWeek){
   return async function(dispatch){
     const notion_firebase = await getDocs(collection(db, 'notion_list'));
@@ -33,6 +34,7 @@ export function loadNotionFB(campName, nowWeek){
     dispatch(loadNotionList(notionList))
   }
 }
+
 export function createNotionFB(newNowData){
   return async function(dispatch){
     const docRef = await addDoc(collection(db, 'notion_list'), newNowData);
@@ -41,6 +43,17 @@ export function createNotionFB(newNowData){
   }
 }
 
+export function deleteNotionFB(title) {
+  return async function(dispatch) {
+    const notion_doc = await getDocs(query(collection(db, 'notion_list'), where("title", "==", title)));
+    
+    notion_doc.forEach(async (v) => {
+      await deleteDoc(doc(db, 'notion_list', v.id));
+      dispatch(removeNotionList(v.id));
+    })
+  }
+}
+//리듀서 함수
 const notionReducer = (state=initialState, action={}) => {
   switch (action.type){
     case LOAD:{
