@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { ValidationCheck } from "./validationCheck";
 import { collection, addDoc } from 'firebase/firestore';
@@ -8,7 +8,8 @@ import logoImg from '../../asset/dongjak.png';
 import { useNavigate } from "react-router-dom";
 
 export default function SignUp({toggleIsLogin}) {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [bchecked, setIsbchecked] = useState(false);
 
     const idInputRef = React.useRef();
     const nickNameInputRef = React.useRef();
@@ -28,7 +29,10 @@ export default function SignUp({toggleIsLogin}) {
         if(ValidationCheck(enteredPw, enteredPwConfirm)){
             const signUp = async (id, nickname, pw, camp) => {
                 await createUserWithEmailAndPassword(auth, id, pw)
-                await addDoc(collection(db, "users"), {userid: id, nickname: nickname, camp: camp });                
+                if (bchecked) {
+                    await addDoc(collection(db, "users"), {userid: id, nickname: nickname, camp: camp, admin: true });                
+                }
+                await addDoc(collection(db, "users"), {userid: id, nickname: nickname, camp: camp, admin: false });                
             }
             signUp(enteredId, enteredNickName, enteredPw, selectedCamp);
             alert('회원가입을 완료했습니다!');
@@ -57,6 +61,9 @@ export default function SignUp({toggleIsLogin}) {
 
             <label htmlFor="pw-confirm">비밀번호 확인</label>
             <input ref={pwConfirmInputRef} type="password" id="pw-confirm" name="pw-confirm" placeholder="비밀번호 확인" required />
+
+            <label htmlFor="administrator">관리자라면 체크해주세요</label>
+            <input type="checkbox" id="administrator" checked={bchecked} onChange={() => {setIsbchecked(!bchecked)}}></input>
 
             <select ref={selectInputRef} name="camp" id="camp">
                 <option value="">캠프를 선택하세요</option>
