@@ -49,8 +49,6 @@ export const loadCampFB = () => {
       camp_list.push({ id: b.id, ...b.data() });
     });
 
-    // 잘 만들어졌는 지 리스트도 확인해봐요! :)
-    console.log(camp_list);
     dispatch(loadCamp(camp_list));
   };
 };
@@ -72,7 +70,6 @@ export default function reducer(state = initialState, action) {
     // action의 타입마다 케이스문을 걸어주면,
     // 액션에 따라서 새로운 값을 돌려줍니다!
     case "camp/LOAD":
-      console.log(action);
       return { camp_list: action.camp_list };
     case "camp/CREATE":
       const updatedCamp = [...state.camp_list, action.campItem];
