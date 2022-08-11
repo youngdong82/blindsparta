@@ -53,6 +53,7 @@ export const signOutFB = () => {
 //reducers
 
 export default function signReducer(state = initialState, action = {}) {
+    console.log(action)
     switch (action.type) {
         case SIGNIN: {
             return { current_user: [ action.user_data ] };
