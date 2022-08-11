@@ -10,6 +10,8 @@ import "../css/routers/mainPage.css";
 
 const MainPage = () => {
   const [istoggle, setIsToggle] = useState(false);
+  const admin = useSelector(state => state.signReducer.current_user?.admin);
+
   const addCamp = () => {
     setIsToggle(true);
   };
@@ -35,10 +37,14 @@ const MainPage = () => {
               </div>
             );
           })}
+          { admin ?
             <div className='camp_box' onClick={addCamp}>
               <img className='addImg' src={addCampImg} alt="add_camp_img" />
               추가하기
             </div>
+            :
+            <></>
+          }
         </div>
         <button> ㄴ </button>
       </div>

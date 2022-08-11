@@ -4,11 +4,15 @@ import {useSelector, useDispatch} from 'react-redux';
 import {loadCommentFB, createCommentFB, removeCommentFB} from '../../y_redux/modules/commentReducer';
 import { removeNotionFB } from '../../y_redux/modules/notionReducer';
 
+
 function Notion({data, userData}) {
   // redux 연결
   const dispatch = useDispatch();
   const comments_redux = useSelector((state) => state.commentReducer.commentList);
   const [comments, setComments] = useState([]);
+  // 노션 삭제권한 확인
+  const adminUser = useSelector((state) => state.signReducer.current_user?.admin);
+
   useEffect(() => {
     dispatch(loadCommentFB(data.camp_name, data.week));
   },[])
@@ -22,6 +26,7 @@ function Notion({data, userData}) {
       });
       setComments(thisComments);
   },[comments_redux]);
+
 
   //comment 작성 관련
   const comment_comment = useRef();
@@ -38,6 +43,8 @@ function Notion({data, userData}) {
     dispatch(createCommentFB(newComment));
     comment_comment.current.value = '';
   }
+  //comment 삭제 관련
+
 
   //추천 누르기 관련
   const [like, setLike] = useState(false)
@@ -61,7 +68,7 @@ function Notion({data, userData}) {
           <h3>{data.title}</h3>
           <span>작성자: {data.user_id}</span>
           <button onClick={toggleLike}>추천 수 : {data.like + like}</button>
-          {userData && userData === data.user_id ? 
+          {userData && userData === data.user_id  || adminUser? 
           <button onClick={removeNotion}>x</button>
           :
           <></>
@@ -74,7 +81,7 @@ function Notion({data, userData}) {
               return(
                   <li key={eachComment.id} data-id={eachComment.id}>
                     <span>{eachComment.comment}</span>
-                    {userData && userData === eachComment.user_id ? 
+                    {userData && userData === eachComment.user_id || adminUser ?
                       <button onClick={removeComment}>x</button>
                       :
                       <></>

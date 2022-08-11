@@ -27,7 +27,7 @@ function BlindBoard() {
   useEffect(() => {
     dispatch(loadCampFB(campName));
     dispatch(loadNotionFB(campName, nowWeek));
-  },[nowWeek])
+  },[nowWeek, pathname])
   //주차 변경
   const switchWeek = (e) => {
     const week_id = e.target.dataset?.id;
@@ -59,6 +59,7 @@ function BlindBoard() {
     notion_title.current.value = "";
     notion_description.current.value = "";
   };
+
   return (
     <div className='blindBoard__page'>
     <Navbar />

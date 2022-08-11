@@ -6,7 +6,8 @@ import { useNavigate} from 'react-router-dom'
 //firebase
 import { auth } from "../firebase/firebase";
 import { onAuthStateChanged } from 'firebase/auth';
-import { signOutFB } from '../y_redux/modules/signReducer';
+import { signCheckFB, signOutFB } from '../y_redux/modules/signReducer';
+import { Link } from "react-router-dom";
 
 function Header() {
   const [isLogin, setIsLogin] = useState(false);
@@ -21,6 +22,7 @@ function Header() {
   const loginCheck = (user) => {
       if (user) {
           setIsLogin(true);
+          dispatch(signCheckFB(user.email));
       } else {
           setIsLogin(false);
       }
@@ -39,12 +41,13 @@ function Header() {
         </div>
       : <div>
           <h2>로그인하세요!</h2>
-          <button>로그인하러가기</button>
+          <Link to="/login">로그인하러가기</Link>
         </div>
       }
     </HeaderComp>
   );
 }
+
 
 const HeaderComp = styled.header`
   width: 100vw;

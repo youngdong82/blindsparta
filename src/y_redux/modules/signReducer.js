@@ -17,7 +17,8 @@ const initialState= {
         {
             userid: "",
             nickname: "",
-            camp: ""
+            camp: "",
+            admin : false
         }
     ]
 }
@@ -38,11 +39,25 @@ export const signInFB = (Id, Pw) => {
         // console.log(usr);
         const user_docs = await getDocs(query(collection(db, "users"), where("userid", "==", usr.user.email)))
         
+        const temp = [];
         user_docs.forEach((v) => {
-            dispatch(loginUser(v.data()))
-        });
+            temp.push(v.data());
+        })
+
+        console.log(temp);
+        dispatch(loginUser(temp))
+        
     }
 }
+
+export const signCheckFB = (emailId) => {
+    return async function check(dispatch) {
+        const current_user = await getDocs(query(collection(db, "users"), where("userid", "==", emailId)));
+        current_user.forEach((v) => {
+            dispatch(loginUser(v.data()))
+        })
+    }
+} 
 
 export const signOutFB = () => {
     return async function userOut(dispatch) {
@@ -53,16 +68,18 @@ export const signOutFB = () => {
 //reducers
 
 export default function signReducer(state = initialState, action = {}) {
+    console.log(action)
     switch (action.type) {
         case SIGNIN: {
-            return { current_user: [ action.user_data ] };
+            return { current_user: action.user_data };
         }
 
         case SIGNOUT: {
             return { current_user : [{
                 userid: "",
                 nickname: "",
-                camp: ""
+                camp: "",
+                admin : false
             }] };
         }
     

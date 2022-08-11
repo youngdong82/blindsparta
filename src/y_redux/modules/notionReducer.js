@@ -20,6 +20,7 @@ export function removeNotionList(notion_id){
   return {type: REMOVE, notion_id}
 }
 
+//미들웨어
 export function loadNotionFB(campName, nowWeek){
   return async function(dispatch){
     //복합쿼리 이용
@@ -36,6 +37,7 @@ export function loadNotionFB(campName, nowWeek){
     dispatch(loadNotionList(notionList))
   }
 }
+
 export function createNotionFB(newNowData){
   return async function(dispatch){
     const docRef = await addDoc(collection(db, 'notion_list'), newNowData);
@@ -49,7 +51,7 @@ export function removeNotionFB(notion_id){
     dispatch(removeNotionList(notion_id));
   }
 }
-
+//리듀서 함수
 const notionReducer = (state=initialState, action={}) => {
   switch (action.type){
     case LOAD:{
