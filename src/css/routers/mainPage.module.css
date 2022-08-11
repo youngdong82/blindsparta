@@ -14,17 +14,19 @@
 .bar {
   width: 800px;
 }
+
 .addbtn {
-  /* background-color: white; */
+  background-color: rgb(18, 15, 15);
   width: 30px;
   height: 30px;
   margin-top: 100px;
   font-size: 15px;
-  /* 왼쪽하단정렬 */
+  /* 왼쪽하단정렬  */
   position: fixed;
   bottom: 10px;
-  right: 10px;
+  right: 10px; 
 }
+
 .addbtn:hover {
   background-color: rgb(204, 225, 243);
 }
