@@ -6,13 +6,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { auth } from "../firebase/firebase";
 import { onAuthStateChanged } from 'firebase/auth';
 import { signCheckFB, signOutFB } from '../y_redux/modules/signReducer';
+import { Link } from "react-router-dom";
 
 function Header() {
   const [isLogin, setIsLogin] = useState(false);
   const dispatch = useDispatch();
   const userOut = () => {
     dispatch(signOutFB())
-  }
+  };
+
 
   const loginCheck = (user) => {
       if (user) {
@@ -36,12 +38,13 @@ function Header() {
         </div>
       : <div>
           <h2>로그인하세요!</h2>
-          <button>로그인하러가기</button>
+          <Link to="/login">로그인하러가기</Link>
         </div>
       }
     </HeaderComp>
   );
 }
+
 
 const HeaderComp = styled.header`
   width: 100vw;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { createCamp, createCampFB } from "../../y_redux/modules/redux";
+
 const Modal = ({ toggle }) => {
   const dispatch = useDispatch();
 
