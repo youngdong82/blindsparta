@@ -17,9 +17,6 @@ export default function SignUp({toggleIsLogin}) {
     const pwConfirmInputRef = React.useRef();
     const selectInputRef = React.useRef();
 
-    // console.log("admintest1");
-    // console.log("admintest2", bchecked);
-
     function onSubmitHandler(event) {
         event.preventDefault();
 
@@ -28,9 +25,6 @@ export default function SignUp({toggleIsLogin}) {
         const enteredPw = pwInputRef.current.value;
         const enteredPwConfirm = pwConfirmInputRef.current.value;
         const selectedCamp = selectInputRef.current.value;
-
-        // console.log("admintest1");
-        // console.log("admintest2", bchecked);
 
         if(ValidationCheck(enteredPw, enteredPwConfirm)){
             const signUp = async (id, nickname, pw, camp) => {

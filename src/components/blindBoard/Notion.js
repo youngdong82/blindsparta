@@ -42,6 +42,8 @@ function Notion({data, deleteNotion}) {
     dispatch(createCommentFB(newComment));
     comment_comment.current.value = '';
   }
+  //comment 삭제 관련
+
 
   //추천 누르기 관련
   const [like, setLike] = useState(false)

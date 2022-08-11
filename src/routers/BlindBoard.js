@@ -23,7 +23,7 @@ function BlindBoard() {
   useEffect(() => {
     dispatch(loadCampFB(campName));
     dispatch(loadNotionFB(campName, nowWeek));
-  },[nowWeek])
+  },[nowWeek, pathname])
   //주차 변경
   const switchWeek = (e) => {
     const week_id = e.target.dataset?.id;
@@ -98,7 +98,7 @@ function BlindBoard() {
           {notionList !== null && notionList.length !== 0 ? 
           notionList.map((eachNotion) => {
             return(
-              <Notion key={eachNotion.id} data={eachNotion} deleteNotion={deleteNotion}/>
+              <Notion key={eachNotion.id} data={eachNotion} deleteNotion={deleteNotion} />
             )
           })
           : <></>}
