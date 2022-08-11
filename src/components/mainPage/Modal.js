@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { createCamp, createCampFB } from "../../y_redux/modules/redux";
+import { createCampFB } from "../../y_redux/modules/campReducer";
 
 const Modal = ({ toggle }) => {
   const dispatch = useDispatch();
@@ -71,9 +71,7 @@ const Modal = ({ toggle }) => {
 
 
 export default Modal;
-const Wrapper = styled.div`
-  position: relative;
-`;
+
 const Backdrop = styled.div`
   margin: auto;
   position: fixed;

@@ -1,46 +1,20 @@
 import React from "react";
 import styled from "styled-components";
-
-import { useDispatch, useSelector } from 'react-redux';
-import { signInFB } from '../../y_redux/modules/signReducer';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loginFB } from '../../y_redux/modules/signReducer';
 import logoImg from '../../asset/dongjak.png';
-
-import { auth } from "../../firebase/firebase";
-import { onAuthStateChanged } from 'firebase/auth';
 
 export default function SignIn({toggleIsLogin}) {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    const userId = useSelector(state => state.signReducer.current_user[0].userid);
 
     //로그인 관련
     const idInputRef = React.useRef();
     const pwInputRef = React.useRef();
-
-    //로그인유무
-    const loginCheck = (user) => {
-        if (user) {
-            navigate('/') ;
-        } else {
-            navigate('/login');
-        }
-    };
-  
-    React.useEffect(() => {
-        if (userId) {
-            navigate('/') ;
-        } else {
-            navigate('/login');
-        }
-    }, [userId]);
-
     function onSubmitHandler(event) {
         event.preventDefault();
         const enteredId = idInputRef.current.value;
         const enteredPw = pwInputRef.current.value;
-        dispatch(signInFB(enteredId, enteredPw));
+        dispatch(loginFB(enteredId, enteredPw));
     }
 
     return(

@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loadCampFB } from "../../y_redux/modules/redux";
+import { loadCampFB } from "../../y_redux/modules/campReducer";
 import campImg from '../../asset/camp_img.png';
 //css
 import '../../css/components/navbar.css'
 
-const Navbar = () => {
-  const camp = useSelector((state) => state.reducer.camp_list);
+const Navbar = ({campName}) => {
+  const camp = useSelector((state) => state.campReducer.campList);
   const dispatch = useDispatch();
 
   useEffect(() => {

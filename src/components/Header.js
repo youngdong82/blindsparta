@@ -1,34 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate} from 'react-router-dom'
 //firebase
 import { auth } from "../firebase/firebase";
 import { onAuthStateChanged } from 'firebase/auth';
-import { signCheckFB, signOutFB } from '../y_redux/modules/signReducer';
+import { loginCheckFB, logoutFB } from '../y_redux/modules/signReducer';
 import { Link } from "react-router-dom";
 
 function Header() {
   const [isLogin, setIsLogin] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user_data = useSelector((state)=> state.signReducer.current_user);
 
   const userOut = () => {
-    dispatch(signOutFB())
+    dispatch(logoutFB())
     navigate('/login')
   }
 
   const loginCheck = (user) => {
       if (user) {
           setIsLogin(true);
-          dispatch(signCheckFB(user.email));
+          dispatch(loginCheckFB(user.email));
       } else {
           setIsLogin(false);
       }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
       onAuthStateChanged(auth, loginCheck);
   }, []);
 
@@ -36,12 +37,14 @@ function Header() {
     <HeaderComp>
       { isLogin 
       ? <div>
-          <h2>환영합니다!</h2> 
-          <button onClick={userOut}>로그아웃하기</button>
+          <h2>로고입니다.</h2> 
+          <span>{user_data.camp_name}</span>
+          <button onClick={userOut}>{user_data.name}</button>
         </div>
       : <div>
-          <h2>로그인하세요!</h2>
-          <Link to="/login">로그인하러가기</Link>
+          <h2>로고입니다.</h2> 
+          <span>캠프 이름</span>
+          <button>유저이름</button>
         </div>
       }
     </HeaderComp>

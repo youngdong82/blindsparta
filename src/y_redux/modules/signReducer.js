@@ -1,88 +1,58 @@
-import {
-    collection,
-    getDocs,
-    where,
-    query,
-} from 'firebase/firestore';
+import {collection,getDocs,where,query} from 'firebase/firestore';
 import { auth, db } from "../../firebase/firebase"
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 // actions
+const LOGIN = 'users/LOGIN';
+const LOGOUT = 'users/LOGOUT';
 
-const SIGNIN = 'users/userlogin';
-const SIGNOUT = 'users/userlogout';
-
-const initialState= {
-    current_user: [
-        {
-            userid: "",
-            nickname: "",
-            camp: "",
-            admin : false
-        }
-    ]
+const initialState = {
+    current_user: {}
 }
+
 // action creater
-
-export function loginUser(user_data) {
-    return {type:SIGNIN, user_data}
+export function login(user_data) {
+    return {type:LOGIN, user_data}
 }
-
 export function logout() {
-    return {type:SIGNOUT}
+    return {type:LOGOUT}
 }
+
 //middlewares
-
-export const signInFB = (Id, Pw) => {
+export const loginFB = (enteredId, enteredPw) => {
     return async function signIn (dispatch){
-        const usr = await signInWithEmailAndPassword(auth, Id, Pw)
-        // console.log(usr);
-        const user_docs = await getDocs(query(collection(db, "users"), where("userid", "==", usr.user.email)))
-        
-        const temp = [];
-        user_docs.forEach((v) => {
-            temp.push(v.data());
+        const user = await signInWithEmailAndPassword(auth, enteredId, enteredPw)
+        const user_docs = await getDocs(query(collection(db, "users"), where("user_id", "==", user.user.email)))
+        user_docs.forEach((each) => {
+            dispatch(login(each.data()))
         })
 
-        console.log(temp);
-        dispatch(loginUser(temp))
-        
     }
 }
-
-export const signCheckFB = (emailId) => {
-    return async function check(dispatch) {
-        const current_user = await getDocs(query(collection(db, "users"), where("userid", "==", emailId)));
-        current_user.forEach((v) => {
-            dispatch(loginUser(v.data()))
-        })
-    }
-} 
-
-export const signOutFB = () => {
+export const logoutFB = () => {
     return async function userOut(dispatch) {
         await signOut(auth);
         dispatch(logout());
     }
 }
+export const loginCheckFB = (emailId) => {
+    return async function check(dispatch) {
+        const current_user = await getDocs(query(collection(db, "users"), where("user_id", "==", emailId)));
+        current_user.forEach((each) => {
+            dispatch(login(each.data()))
+        })
+    }
+} 
+
 //reducers
-
 export default function signReducer(state = initialState, action = {}) {
-    console.log(action)
     switch (action.type) {
-        case SIGNIN: {
-            return { current_user: action.user_data };
+        case LOGIN: {
+            return { ...state, current_user: action.user_data };
         }
-
-        case SIGNOUT: {
-            return { current_user : [{
-                userid: "",
-                nickname: "",
-                camp: "",
-                admin : false
-            }] };
+        case LOGOUT: {
+            return { ...state, current_user : {} };
         }
-    
         default:
             return state;
     }

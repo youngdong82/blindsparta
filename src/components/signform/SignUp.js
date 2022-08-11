@@ -1,86 +1,79 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { ValidationCheck } from "./validationCheck";
 import { collection, addDoc } from 'firebase/firestore';
 import { auth, db } from "../../firebase/firebase"
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import logoImg from '../../asset/dongjak.png';
-import { useNavigate } from "react-router-dom";
 
 export default function SignUp({toggleIsLogin}) {
-    const navigate = useNavigate();
-    const [bchecked, setIsbchecked] = useState(false);
+    const signupIDRef = useRef(null);
+    const signupUsernameRef = useRef(null);
+    const signupPWRef = useRef(null);
+    const signupPWConfirmRef = useRef(null);
+    const signupAdminRef = useRef(null);
+    const signupCampRef = useRef(null);
 
-    const idInputRef = React.useRef();
-    const nickNameInputRef = React.useRef();
-    const pwInputRef = React.useRef();
-    const pwConfirmInputRef = React.useRef();
-    const selectInputRef = React.useRef();
+    const doSignup = async()  => {
+        const idValue = signupIDRef.current.value;
+        const usernameValue = signupUsernameRef.current.value;
+        const pwValue = signupPWRef.current.value;
+        const pwConfirmValue = signupPWConfirmRef.current.value;
+        const adminValue = signupAdminRef.current.checked;
+        const selectedValue = signupCampRef.current.value;
 
-    function onSubmitHandler(event) {
-        event.preventDefault();
-
-        const enteredId = idInputRef.current.value;
-        const enteredNickName = nickNameInputRef.current.value;
-        const enteredPw = pwInputRef.current.value;
-        const enteredPwConfirm = pwConfirmInputRef.current.value;
-        const selectedCamp = selectInputRef.current.value;
-
-        if(ValidationCheck(enteredPw, enteredPwConfirm)){
-            const signUp = async (id, nickname, pw, camp) => {
-                await createUserWithEmailAndPassword(auth, id, pw)
-                if (bchecked) {
-                    await addDoc(collection(db, "users"), {userid: id, nickname: nickname, camp: camp, admin: true });                
-                }
-                await addDoc(collection(db, "users"), {userid: id, nickname: nickname, camp: camp, admin: false });                
+        if(ValidationCheck(pwValue, pwConfirmValue)){
+            const user = await createUserWithEmailAndPassword(auth,idValue, pwValue);
+            const user_data = {
+                user_id: user.user.email,
+                name: usernameValue,
+                admin: adminValue,
+                camp_name: selectedValue
             }
-            signUp(enteredId, enteredNickName, enteredPw, selectedCamp);
-            alert('회원가입을 완료했습니다!');
-            navigate('/');
-        }
-        else{
-            alert('다시 입력해주세요!');
+            await addDoc(collection(db,'users'),user_data)
+        }else{
+            alert('다시 입력해주세요')
         }
     }
 
     return (
-    <SubmitForm onSubmit={onSubmitHandler}>
+    <SubmitForm>
         <LogoSlot>
             <img src={logoImg} alt="sparta logo" />
             <p>블라인드 스파르타</p>
         </LogoSlot>
         <FieldSet>
-            <label htmlFor="id">아이디</label>
-            <input ref={idInputRef} type="email" id="id" name="id" placeholder="아이디" required />
+            <label>아이디</label>
+            <input ref={signupIDRef} type="email" placeholder="아이디" />
 
-            <label htmlFor="id">닉네임</label>
-            <input ref={nickNameInputRef} type="text" id="nickname" name="nickname" placeholder="닉네임" required />
+            <label>닉네임</label>
+            <input ref={signupUsernameRef} type="text" placeholder="닉네임" />
 
-            <label htmlFor="pw">비밀번호</label>
-            <input ref={pwInputRef} type="password" id="pw" name="pw" placeholder="비밀번호" required />
+            <label>비밀번호</label>
+            <input ref={signupPWRef} type="password" placeholder="비밀번호" />
 
-            <label htmlFor="pw-confirm">비밀번호 확인</label>
-            <input ref={pwConfirmInputRef} type="password" id="pw-confirm" name="pw-confirm" placeholder="비밀번호 확인" required />
+            <label>비밀번호 확인</label>
+            <input ref={signupPWConfirmRef} type="password" placeholder="비밀번호 확인" />
 
-            <label htmlFor="administrator">관리자라면 체크해주세요</label>
-            <input type="checkbox" id="administrator" checked={bchecked} onChange={() => {setIsbchecked(!bchecked)}}></input>
+            <label>관리자라면 체크해주세요</label>
+            <input ref={signupAdminRef} type="checkbox"/>
 
-            <select ref={selectInputRef} name="camp" id="camp">
-                <option value="">캠프를 선택하세요</option>
+            <select ref={signupCampRef}>
+                <option value="" disabled>캠프를 선택하세요</option>
                 <option value="서울">서울</option>
                 <option value="동작">동작</option>
                 <option value="강원">강원</option>
             </select>
             <div>
-                <button onClick={toggleIsLogin} type='button'>로그인하기</button>
-                <button>확인</button>
+                <button onClick={toggleIsLogin} >로그인하기</button>
+                <button onClick={doSignup}>확인</button>
             </div>
         </FieldSet>
     </SubmitForm>)
 }
 
 
-const SubmitForm = styled.form`
+const SubmitForm = styled.div`
     min-height: 100vh;
     width: 100vw;
     display: flex;
@@ -110,7 +103,7 @@ const LogoSlot = styled.div`
     }
 `
 
-const FieldSet = styled.fieldset`
+const FieldSet = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
