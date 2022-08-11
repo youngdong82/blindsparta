@@ -1,16 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 //firebase
 import { auth } from "../firebase/firebase";
 import { onAuthStateChanged } from 'firebase/auth';
-import { signOutFB } from '../y_redux/modules/signReducer';
+import { signCheckFB, signOutFB } from '../y_redux/modules/signReducer';
 
 function Header() {
   const [isLogin, setIsLogin] = useState(false);
   const dispatch = useDispatch();
-
   const userOut = () => {
     dispatch(signOutFB())
   }
@@ -18,12 +17,11 @@ function Header() {
   const loginCheck = (user) => {
       if (user) {
           setIsLogin(true);
+          dispatch(signCheckFB(user.email));
       } else {
           setIsLogin(false);
       }
   };
-
-  console.log(auth.currentUser);
 
   React.useEffect(() => {
       onAuthStateChanged(auth, loginCheck);
