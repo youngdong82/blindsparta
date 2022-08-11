@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import {useSelector, useDispatch} from 'react-redux';
-import {loadCommentFB, createCommentFB} from '../../y_redux/modules/commentReducer';
+import {loadCommentFB, createCommentFB, removeCommentFB} from '../../y_redux/modules/commentReducer';
+import { removeNotionFB } from '../../y_redux/modules/notionReducer';
 
-function Notion({data, deleteNotion}) {
+
+function Notion({data, userData}) {
   // redux 연결
   const dispatch = useDispatch();
   const comments_redux = useSelector((state) => state.commentReducer.commentList);
@@ -12,20 +14,17 @@ function Notion({data, deleteNotion}) {
   const adminUser = useSelector((state) => state.signReducer.current_user?.admin);
 
   useEffect(() => {
-    dispatch(loadCommentFB())
+    dispatch(loadCommentFB(data.camp_name, data.week));
   },[])
 
   useEffect(() => {
-    if(comments_redux.length !== 0){
       const thisComments = comments_redux.filter((eachComment) => {
         if(data.id === eachComment.notion_id){
           return true;
-        }else{
-          return false;
         }
+        return false;
       });
       setComments(thisComments);
-    }
   },[comments_redux]);
 
 
@@ -35,6 +34,8 @@ function Notion({data, deleteNotion}) {
     const commentValue = comment_comment.current.value;
 
     const newComment = {
+      camp_name: data.camp_name,
+      week: data.week,
       user_id: data.user_id,
       notion_id: data.id,
       comment: commentValue,
@@ -50,25 +51,42 @@ function Notion({data, deleteNotion}) {
   const toggleLike = () => {
     setLike(!like)
   }
+  const removeNotion = (e) => {
+    const notion = e.target.closest('article');
+    const notion_id = notion.dataset.id
+    dispatch(removeNotionFB(notion_id))
+  }
+  const removeComment = (e) => {
+    const notion = e.target.closest('li');
+    const notion_id = notion.dataset.id
+    dispatch(removeCommentFB(notion_id))
+  }
+
   return (
-    <NotionComp>
+    <NotionComp data-id={data.id}>
       <div>
           <h3>{data.title}</h3>
           <span>작성자: {data.user_id}</span>
-          <div>
-            <button onClick={toggleLike}>추천 수 : {data.like + like}</button>
-            { adminUser 
-            ? <button onClick={() => {deleteNotion(data.title)}}>삭제</button>
-            : <></>
-            }
-          </div>
+          <button onClick={toggleLike}>추천 수 : {data.like + like}</button>
+          {userData && userData === data.user_id  || adminUser? 
+          <button onClick={removeNotion}>x</button>
+          :
+          <></>
+          }
       </div>
       <p>{data.description}</p>
       <ul>
           {comments.length !== 0 ? 
             comments.map((eachComment) => {
               return(
-                <li key={eachComment.id}>{eachComment.comment}</li>
+                  <li key={eachComment.id} data-id={eachComment.id}>
+                    <span>{eachComment.comment}</span>
+                    {userData && userData === eachComment.user_id || adminUser ?
+                      <button onClick={removeComment}>x</button>
+                      :
+                      <></>
+                    }
+                  </li>
               )
             }) : <></>
           }

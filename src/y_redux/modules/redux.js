@@ -1,24 +1,13 @@
 import {
   collection,
-  doc,
-  getDoc,
   getDocs,
   addDoc,
-  updateDoc,
-  deleteDoc,
 } from "firebase/firestore";
 
 import { db } from "../../firebase/firebase";
 
 const initialState = {
   camp_list: [
-    {
-      camp_name: "dongjak",
-      date: "2022.08.01~2022.11.04",
-      name: "이노베이션 in 동작",
-      time: "월~토(공휴일 제외)오전9시~오후9시",
-      way: "온라인 부트캠프",
-    },
   ],
 };
 
@@ -48,10 +37,7 @@ export const loadCampFB = () => {
       // 콘솔로 확인해요!
       camp_list.push({ id: b.id, ...b.data() });
     });
-
-    // 잘 만들어졌는 지 리스트도 확인해봐요! :)
-    dispatch(loadCamp(camp_list));
-  };
+  }
 };
 
 //add

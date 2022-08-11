@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useNavigate} from 'react-router-dom'
 //firebase
 import { auth } from "../firebase/firebase";
 import { onAuthStateChanged } from 'firebase/auth';
@@ -11,10 +12,12 @@ import { Link } from "react-router-dom";
 function Header() {
   const [isLogin, setIsLogin] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const userOut = () => {
     dispatch(signOutFB())
-  };
-
+    navigate('/login')
+  }
 
   const loginCheck = (user) => {
       if (user) {

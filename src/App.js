@@ -18,8 +18,6 @@ function App() {
   },[]);
 
   const PrivateRoute = ({ children }) => {
-    
-  
     return userId ? ( children
     ) : (
       <Navigate to="/login" replace={true} />
@@ -31,7 +29,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Header />
+        <Header/>
         <Routes>
           {/* <Route path="/" element={<MainPage />} /> */}
           <Route path="/login" element={<SignForm />} />

@@ -1,14 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import Notion from '../components/blindBoard/Notion';
-import styled from 'styled-components'
 import Navbar from '../components/blindBoard/Navbar'
 //redux
 import {useSelector, useDispatch} from 'react-redux';
 import {loadCampFB} from '../y_redux/modules/campReducer';
-import {loadNotionFB, createNotionFB, deleteNotionFB} from '../y_redux/modules/notionReducer';
+import {loadNotionFB, createNotionFB} from '../y_redux/modules/notionReducer';
+import { auth } from '../firebase/firebase';
+//css
+import '../css/routers/blindBoard.css'
 //temp
 import campImg from '../asset/camp_img.png';
+
 
 function BlindBoard() {
   // 기본 렌더링 데이터 가져오기
@@ -19,6 +22,7 @@ function BlindBoard() {
   const dispatch = useDispatch();
   const notionList = useSelector((state) => state.notionReducer.notionList);
   const campData = useSelector((state) => state.campReducer.campData);
+  const userData = auth.currentUser?.email
 
   useEffect(() => {
     dispatch(loadCampFB(campName));
@@ -44,7 +48,7 @@ function BlindBoard() {
     const newNowData = {
       camp_name: campName,
       week: nowWeek,
-      user_id: 'youngdong4', 
+      user_id: userData, 
       title: notionTitleValue, 
       description: notionDescriptionValue, 
       like: 0,
@@ -56,23 +60,22 @@ function BlindBoard() {
     notion_description.current.value = "";
   };
 
-  //노션 삭제 관련
-  const deleteNotion = (Title) => {
-    dispatch(deleteNotionFB(Title));
-  }
   return (
-    <CampComp>
+    <div className='blindBoard__page'>
     <Navbar />
-    <BlindBoardComp>
-      <CampInfoComp>
+    <main className='blindBoard__comp'>
+      <section className='camp_info__comp'>
         <article className='campInfo'>
           {campData !== null ? 
           <>
             <img src={campImg} alt='이노베이션 이미지' />
             <h3>{campData.name}</h3>
-            <div> 캠프 기간 : {campData.date}</div>
-            <div> 훈련 시간 : {campData.time}</div>
-            <div> 훈련 방식 : {campData.way}</div>
+            <div className='other_info'>
+              <div> 기간 : {campData.date}</div>
+              <div> 시간 : {campData.time}</div>
+              <div> 방식 : {campData.way}</div>
+              <hr></hr>
+            </div>
           </>
           : <></>}
         </article>
@@ -92,77 +95,30 @@ function BlindBoard() {
           <div data-id='week_13'>13주차</div>
           <div data-id='week_14'>14주차</div>
         </article>
-      </CampInfoComp>
-      <NotionContainerComp>
-        <NotionContainer>
+      </section>
+
+      {/* ---------------------------------------------- */}
+
+      <section className='notion_container__comp'>
+        <div className='notion_container'>
           {notionList !== null && notionList.length !== 0 ? 
           notionList.map((eachNotion) => {
             return(
-              <Notion key={eachNotion.id} data={eachNotion} deleteNotion={deleteNotion} />
+              <Notion key={eachNotion.id} data={eachNotion} userData={userData}/>
             )
           })
           : <></>}
-        </NotionContainer>
-        <NotionInput>
+        </div>
+        <article className='notion_input'>
           <label>더 하고 싶은 말이 있나요?</label>
           <input ref={notion_title} type='text' placeholder='글 제목을 적어주세요'/>
           <input ref={notion_description} type='text' placeholder='글 내용을 적어주세요' />
           <button onClick={submitNotion}>작성하기</button>
-        </NotionInput>
-      </NotionContainerComp>
-    </BlindBoardComp>
-    </CampComp>
+        </article>
+      </section>
+    </main>
+    </div>
   );
 }
-const CampComp = styled.div`
-  display: flex;
-`;
-const BlindBoardComp = styled.main`
-  width: 80vw;
-  height: 84vh;
-  display: flex;
-  overflow: hidden;
-`;
-const CampInfoComp = styled.section`
-  width: 30%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  & .campInfo {
-    height: 50%;
-  }
-  & .campInfo > img {
-    width: 100%;
-    height: 50%;
-  }
-
-  & .weekContainer {
-    height: 50%;
-    overflow-y: scroll;
-  }
-  & .weekContainer > div {
-    width: 100%;
-    height: 40px;
-    text-align: center;
-    cursor: pointer;
-  }
-`;
-const NotionContainerComp = styled.section`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-`;
-const NotionContainer = styled.div`
-  width: 100%;
-  height: 85%;
-  overflow-y: scroll;
-`;
-const NotionInput = styled.article`
-  width: 100%;
-  height: 15%;
-  display: flex;
-  flex-direction: column;
-`;
 
 export default BlindBoard;

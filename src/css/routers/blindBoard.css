@@ -1,0 +1,82 @@
+.blindBoard__page{
+  display: flex;
+  height: 90vh;
+}
+.blindBoard__comp{
+width: 84vw;
+height: 100%;
+display: flex;
+overflow: hidden;
+}
+.camp_info__comp{
+  width: 30%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.campInfo{
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+}
+.campInfo img{
+  border: 2px solid rgb(226, 162, 162);
+  border-radius: 10rem;
+  width: 150px;
+  height: 150px;
+  margin: 30px;
+}
+.campInfo h3{
+  margin: 0px;
+  margin-bottom: 30px;
+  color: rgb(82, 4, 4);
+}
+.other_info{
+  font-size: 14px;
+}
+.other_info div{
+  margin-bottom: 4px;
+}
+.other_info hr{
+  width: 100%;
+  margin-top: 44px;
+}
+
+
+.weekContainer{
+  height: 40vh;
+  overflow-y: scroll;
+}
+.weekContainer div{
+  width: 100%;
+  height: 40px;
+  text-align: center;
+  padding: 12px 0;
+  cursor: pointer;
+}
+.weekContainer div:hover{
+  color: rgb(255, 255, 255);
+  background-color: rgb(214, 86, 86);
+}
+
+/* ------------------------------------------------ */
+
+.notion_container__comp{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.notion_container{
+  width: 100%;
+  height: 85%;
+  overflow-y: scroll;
+}
+.notion_input{
+  width: 100%;
+  height: 15%;
+  display: flex;
+  flex-direction: column;
+}

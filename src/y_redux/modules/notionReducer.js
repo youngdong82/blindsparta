@@ -1,4 +1,4 @@
-import { collection, addDoc, getDocs, deleteDoc, doc, where, query } from "firebase/firestore";
+import { collection, addDoc, getDocs, deleteDoc, doc, query, where } from "firebase/firestore";
 import { db } from '../../firebase/firebase';
 // 액션
 const LOAD = 'notionList/LOAD';
@@ -23,13 +23,16 @@ export function removeNotionList(notion_id){
 //미들웨어
 export function loadNotionFB(campName, nowWeek){
   return async function(dispatch){
-    const notion_firebase = await getDocs(collection(db, 'notion_list'));
+    //복합쿼리 이용
+    const notion_firebase = await getDocs(
+      query(
+        collection(db,'notion_list'),
+        where('camp_name', '==',campName),
+        where('week', '==',nowWeek)
+      ));
     let notionList = [];
     notion_firebase.forEach((each) => {
-      const decoded_each = each.data();
-      if(decoded_each.camp_name === campName && decoded_each.week === nowWeek){
-        notionList.push({id: each.id, ...decoded_each})
-      }
+      notionList.push({id: each.id, ...each.data()})
     })
     dispatch(loadNotionList(notionList))
   }
@@ -42,15 +45,10 @@ export function createNotionFB(newNowData){
     dispatch(createNotionList(new_notion_data));
   }
 }
-
-export function deleteNotionFB(title) {
-  return async function(dispatch) {
-    const notion_doc = await getDocs(query(collection(db, 'notion_list'), where("title", "==", title)));
-    
-    notion_doc.forEach(async (v) => {
-      await deleteDoc(doc(db, 'notion_list', v.id));
-      dispatch(removeNotionList(v.id));
-    })
+export function removeNotionFB(notion_id){
+  return async function(dispatch){
+    await deleteDoc(doc(db,'notion_list',notion_id))
+    dispatch(removeNotionList(notion_id));
   }
 }
 //리듀서 함수
