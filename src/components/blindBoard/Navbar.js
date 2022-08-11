@@ -1,13 +1,10 @@
-import { useSelector } from "react-redux";
-import styled from "styled-components";
-import Card from "./Card";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { loadCampFB } from "../../y_redux/modules/redux";
-import { useDispatch } from "react-redux";
+import campImg from '../../asset/camp_img.png';
+//css
+import '../../css/components/navbar.css'
 
 const Navbar = () => {
   const camp = useSelector((state) => state.reducer.camp_list);
@@ -17,83 +14,23 @@ const Navbar = () => {
     dispatch(loadCampFB());
   }, [loadCampFB]);
 
-  const settings = {
-    dots: false,
-    infinite: true,
-    centerPadding: "60px",
-    slidesToScroll: 1,
-    slidesToShow: 5,
-    vertical: true,
-    scroll: true,
-    speed: 500,
-  };
-
   return (
-    <Wrapper {...settings}>
-      {camp.map((item) => {
-        const id = item.camp_name;
+    <div className='camp_spreader__vertical' >
+    <button> ㄱ </button>
+    <div className='camp_container__vertical' >
+      {camp.map((each) => {
+        const id = each.camp_name;
         return (
-          <Card key={id} type={"nav"}>
-            <Link className="link" to={`/${id}`}>
-              <img src="assets/img/channel_talk_btn.png" alt="cheannel_img" />
-              <p>{item.name}</p>
-            </Link>
-          </Card>
+          <div key={id} className='camp_box__nav' >
+            <img src={campImg} alt="campimage" />
+            <Link to={`/${id}`}>{each.name}</Link>
+          </div>
         );
       })}
-    </Wrapper>
+    </div>
+    <button> ㄴ </button>
+  </div>
   );
 };
 
 export default Navbar;
-
-const Wrapper = styled(Slider)`
-  min-height: 600px;
-  margin-top: 30px;
-  height: 600px;
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-
-  background: #ecf0f1;
-  position: relative;
-  .slick-slider {
-  }
-  .slick-arrow {
-    background: #9e9e9e61;
-
-    width: 40px;
-    height: 40px;
-    border: 0;
-    border-radius: 30px;
-    text-align: center;
-  }
-
-  .slick-prev {
-    top: 550px;
-    left: 30px;
-
-    &::before {
-      opacity: 1; // 기존에 숨어있던 화살표 버튼이 보이게
-      color: #e3344d; // 버튼 색은 검은색으로
-    }
-  }
-  .slick-next {
-    top: 550px;
-    right: 30px;
-
-    &::before {
-      opacity: 1;
-      color: #e3344d;
-    }
-  }
-  img {
-    width: 50px;
-  }
-  .link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-  }
-`;
